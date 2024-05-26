@@ -1,0 +1,16 @@
+*.pyc
+*~
+__pycache__
+
+
+.env
+Digital-venv/
+venv/
+
+db.sqlite3
+
+/static/
+
+.vscode/
+.history/
+*.code-workspace
