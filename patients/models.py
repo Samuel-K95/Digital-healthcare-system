@@ -4,16 +4,22 @@ from django.contrib.auth.models import User
 # Create your models here.
 class Patient(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100)
-    age= models.IntegerField()
-    gender = models.CharField(max_length=10, choices=[('Male', 'Male'), ('Female', 'Female')])
-    contact_number = models.CharField(max_length=15)
-    address = models.TextField()
-    date_of_birth = models.DateField()
-    emergency_contact = models.CharField(max_length=100)
+    fname = models.CharField(max_length=100)
+    lname  = models.CharField(max_length=100)
+    email = models.EmailField(max_length=254)
+    age= models.IntegerField(null=True)
+    password = models.CharField(max_length=20)
+    gender = models.CharField(max_length=10, choices=[('Male', 'Male'), ('Female', 'Female')], null=True)
+    contact_number = models.CharField(max_length=15, null=True)
+    address = models.TextField(null=True)
+    date_of_birth = models.DateField(null=True)
+    emergency_contact = models.CharField(max_length=100, null=True)
+
+    def create_user(self):
+        pass
 
     def __str__(self):
-        return self.name
+        return self.fname + self.lname
 
 class MedicalHisory(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
