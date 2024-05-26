@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Sign up</title>
+</head>
+<body>
+    <form method='POST' action="{% url 'PatientSignUp' %}">{% csrf_token %}
+        {{ patient_form.as_p }}
+        {{ user_form.as_p }}
+        <button type="submit">Sign up</button>
+    </form>
+</body>
+</html>

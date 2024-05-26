@@ -1,0 +1,106 @@
+body{
+    margin: 0;
+}
+
+nav{
+    width: 230px;
+    background-color: rgba(1, 50, 82, 0.842);
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    padding-left: 20px;
+    padding-top: 20px;
+    color: white;
+}
+
+.nav-bar div{
+    margin: 10px;
+    margin-bottom: 40px;
+}
+
+.Patient-portal{
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom:30px
+}
+
+.nav-bar img{
+    margin-right: 25px;
+}
+
+.nav-bar button{
+    background-color: transparent;
+    color: white;
+    border: None;
+    margin: 10px;
+    font-size: 18px;
+}
+
+.nav-bar button:hover,
+.nav-bar div:hover{
+    opacity: 0.4;
+    cursor: pointer;
+}
+
+.nav-bar button:active,
+.nav-bar div:active{
+    opacity: 0.7;
+}
+
+
+.search{
+    position: fixed;
+    top: 20px;
+    left: 40%;
+    display: flex;
+}
+
+.left-search{
+    display: flex;
+    color: white;
+    width: 50px;
+    background-color: rgba(1, 50, 82, 0.842);
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    font-size: 14px;
+    height: 35px;
+    padding-left: 10px;
+    align-items: center;
+}
+
+.search input{
+    width: 400px;
+    height: 29px;
+}
+
+.right-search{
+    display: flex;
+    color: white;
+    width: 30px;
+    background-color: rgba(1, 50, 82, 0.842);
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    height: 35px;
+    font-size: 14px;
+    padding-left: 10px;
+    align-items: center;
+}
+
+.chat-bot{
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+}
+
+.chat-bot button{
+    background-color: transparent;
+    border: none;
+}
+
+.chat-bot :hover{
+    opacity: 0.5;
+    cursor: pointer;
+}
