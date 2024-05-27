@@ -41,13 +41,13 @@ nav{
 
 .nav-bar button:hover,
 .nav-bar div:hover{
-    opacity: 0.4;
+    opacity: 0.6;
     cursor: pointer;
 }
 
 .nav-bar button:active,
 .nav-bar div:active{
-    opacity: 0.7;
+    opacity: 0.4;
 }
 
 
@@ -101,6 +101,11 @@ nav{
 }
 
 .chat-bot :hover{
+    opacity: 0.6;
+    cursor: pointer;
+}
+
+.chat-bot :active{
     opacity: 0.5;
     cursor: pointer;
 }
