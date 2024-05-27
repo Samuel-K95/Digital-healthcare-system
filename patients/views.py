@@ -18,13 +18,17 @@ def PatientSignUp(request):
     if request.method == 'POST':
         user_form = UserForm(request.POST)
         patient_form = PatientForm(request.POST)
+
         if patient_form.is_valid() and user_form.is_valid():
             user = user_form.save()
             user.refresh_from_db()
 
             patient = patient_form.save(commit=False)
             patient.user = user
+            patient.email = user_form.cleaned_data.get('email')
+            patient.password = user_form.cleaned_data.get('password1')
             patient.save()
+
             patient_form = PatientForm(request.POST, instance=user.patient)
             raw_password = user_form.cleaned_data.get('password1')
             user = authenticate(username = user.username, password = raw_password)
