@@ -17,6 +17,7 @@
         </div>
     </header>
     <div class="wrap">
+        
         <div class="container">
             <form method='POST' action="{% url 'PatientLogin' %}">{% csrf_token %}
                 <p class="top-p">Log in</p>
@@ -24,17 +25,24 @@
                     <p>User name</p>
                     {{ user_form.username }}
                     {% for error in user_form.username.errors %}
-                        <div class="error">{{ error }}</div>
+                        <div class="error" style="color: red;">{{ error }}</div>
                     {% endfor %}
                 </div>
 
                 <div class="form-group">
                     <p>Password</p>
                     {{ user_form.password }}
-                    {% for error in user_form.password1.errors %}
-                        <div class="error">{{ error }}</div>
+                    {% for error in user_form.password.errors %}
+                        <div class="error" style="color: red;">{{ error }}</div>
                     {% endfor %}
                 </div>
+
+                {% if user_form.non_field_errors %}
+                    {% for error in user_form.non_field_errors %}
+                        <div class="error" style="color: red;">{{ error }}</div>
+                    {% endfor %}
+                {% endif %}
+
                 <div class="button-div">
                     <button type="submit">Log in</button>
                 </div>

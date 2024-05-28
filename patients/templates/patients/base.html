@@ -1,9 +1,12 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <script defer src="{% static 'js/currentPage.js' %}"></script>
     <title>Patient Portal</title>
 </head>
 
@@ -13,40 +16,55 @@
             <img src="{% static 'images/electrocardiogram.png' %}"/>
             <p>Patient Portal</p>
         </header>
+        
+        <form method="POST"  action="{% url 'PatientDashboard' user.pk %}">{% csrf_token %}
+            <div class="dashboard-container">
+                <img src="{% static 'images/dashboard.png' %}">
+                <button class="dash-button">Dashboard</button>
+            </div>
+        </form>
 
-        <div class="dashboard-container">
-            <img src="{% static 'images/dashboard.png' %}">
-            <button class="dash-button">Dashboard</button>
-        </div>
+        <form method="POST" action="{% url 'Posts' user.pk %}">{% csrf_token %}
+            <div class="posts">
+                <img src="{% static 'images/social.png' %}" alt="posts">
+                <button class="posts-button">Posts</button>
+            </div>
+        </form>
 
-        <div class="posts">
-            <img src="{% static 'images/social.png' %}" alt="posts">
-            <button class="posts-button">Posts</button>
-        </div>
+        <form method="POST" action="{% url 'PatientAppointments' user.pk  %}">{% csrf_token %}
+            <div class="appointments">
+                <img src="{% static 'images/appointment.png' %}">
+                <button class="appointment-button">Appointments</button>
+            </div>
+        </form>
 
-        <div class="appointments">
-            <img src="{% static 'images/appointment.png' %}">
-            <button class="appointment-button">Appointments</button>
-        </div>
+        <form method="POST" action="{% url 'Doctors' user.pk  %}">{% csrf_token %}
+            <div class="doctors">
+                <img src="{% static 'images/medical-team.png' %}">
+                <button class="Doctors-button">Doctors</button>
+            </div>
+        </form>
 
-        <div class="doctors">
-            <img src="{% static 'images/medical-team.png' %}">
-            <button class="Doctors-button">Doctors</button>
-        </div>
-        <div class="messages">
-            <img src="{% static 'images/comments.png' %}" >
-            <button class="message-button">Messages</button>
-        </div>
+        <form method="POST" action="{% url 'Messages' user.pk  %}">{% csrf_token %}
+            <div class="messages">
+                <img src="{% static 'images/comments.png' %}" >
+                <button class="message-button">Messages</button>
+            </div>
+        </form>
 
-        <div class="profile">
-            <img src="{% static 'images/user.png' %}" alt="profile">
-            <button class="profile-button">Profile</button>
-        </div>
+        <form method="POST" action="{% url 'PatientProfile' user.pk  %}">{% csrf_token %}
+            <div class="profile">
+                <img src="{% static 'images/user.png' %}" alt="profile">
+                <button class="profile-button">Profile</button>
+            </div>
+        </form>
 
-        <div class="logout">
-            <img src="{% static 'images/logout.png' %}" alt="logout">
-            <button class="logout-button">Log out</button>
-        </div>
+        <form method="POST" action="{% url 'PatientLogout' user.pk  %}">{% csrf_token %}
+            <div class="logout">
+                <img src="{% static 'images/logout.png' %}" alt="logout">
+                <button class="logout-button">Log out</button>
+            </div>
+        </form>
     </nav>
     <div class="search">
         <div class="left-search"><p>Search</p></div>
@@ -54,6 +72,9 @@
         <div class="right-search"><img src="{% static 'images/magnifying-glass.png' %}" alt="magnifying"></div>
     </div>
     <div class="container">
+        {% block content %}
+            
+        {% endblock %}
     </div>
 
     <div class="chat-bot">

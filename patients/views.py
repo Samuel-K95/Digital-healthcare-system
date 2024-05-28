@@ -1,5 +1,5 @@
 from django import forms
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
 from .models import *
@@ -10,9 +10,17 @@ from .forms import PatientForm, UserForm, UserLoginForm
 def index(request):
     return HttpResponse("index home")
 
-def PatientProfile(request):
-    all_users = Patient.objects.all()
-    return render(request, 'patients/patient_profile.html', {'patients':all_users.__str__()})
+def PatientDashboard(request, pk):
+    patient = get_object_or_404(Patient, user__pk=pk)
+    context = {
+        'patient' : patient
+    }
+    
+    return render(request, 'patients/dashboard.html', context)
+
+def PatientProfile(request, pk):
+    curr_patient=get_object_or_404(Patient, user__pk=pk)
+    return render(request, 'patients/patient_profile.html', {'patients': curr_patient.__str__()})
 
 
 def PatientSignUp(request):
@@ -34,7 +42,7 @@ def PatientSignUp(request):
             raw_password = user_form.cleaned_data.get('password1')
             user = authenticate(username = user.username, password = raw_password)
             login(request, user)
-            return redirect('PatientProfile') 
+            return redirect('PatientDashboard', pk = user.pk) 
     else:
         patient_form = PatientForm()
         user_form = UserForm()
@@ -49,10 +57,25 @@ def PatientLogin(request):
             user = user_form.get_user()
             if user is not None:
                 login(request, user)
-                return redirect('PatientProfile')
+                return redirect('PatientDashboard', pk=user.pk)
     else:
         user_form  = UserLoginForm()
     
     return render(request, 'patients/patient_login.html', {'user_form':user_form})
                 
 
+
+def Posts(request):
+    pass
+
+def PatientAppointments(request):
+    pass
+
+def Doctors(request):
+    pass
+
+def Messages(request):
+    pass
+
+def PatientLogout(request):
+    pass

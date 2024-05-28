@@ -31,6 +31,9 @@ class UserLoginForm(forms.Form):
             if user is None:
                 raise forms.ValidationError("invalid username")
             return cleaned_data
+        else:
+            raise forms.ValidationError("invalid username or password")
+        
     def get_user(self):
         return self.user
 
