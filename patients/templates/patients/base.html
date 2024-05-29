@@ -6,7 +6,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script defer src="{% static 'js/initial.js' %}"></script>
     <script defer src="{% static 'js/currentPage.js' %}"></script>
+    
     <title>Patient Portal</title>
 </head>
 
@@ -59,7 +63,7 @@
             </div>
         </form>
 
-        <form method="POST" action="{% url 'PatientLogout' user.pk  %}">{% csrf_token %}
+        <form method="POST" action="{% url 'PatientLogout' %}">{% csrf_token %}
             <div class="logout">
                 <img src="{% static 'images/logout.png' %}" alt="logout">
                 <button class="logout-button">Log out</button>
@@ -73,7 +77,6 @@
     </div>
     <div class="container">
         {% block content %}
-            
         {% endblock %}
     </div>
 

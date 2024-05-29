@@ -1,5 +1,6 @@
 body{
     margin: 0;
+    display: flex;
 }
 
 nav{
@@ -103,6 +104,16 @@ nav{
     font-size: 14px;
     padding-left: 10px;
     align-items: center;
+}
+
+.container{
+    margin-left: 250px;
+    width: calc(100% - 250px);
+    padding: 20px;
+    margin-top: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .chat-bot{
