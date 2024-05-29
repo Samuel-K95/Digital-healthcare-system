@@ -13,5 +13,5 @@ urlpatterns = [
     path('PatientAppointments/<int:pk>', views.PatientAppointments, name="PatientAppointments"),
     path('Doctors/<int:pk>', views.Doctors, name="Doctors"),
     path('Messages/<int:pk>', views.Messages, name="Messages"),
-    path('PatientLogout/<int:pk>', views.PatientLogout, name="PatientLogout"),
+    path('PatientLogout/', views.PatientLogout, name="PatientLogout"),
 ]

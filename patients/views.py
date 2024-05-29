@@ -1,9 +1,10 @@
 from django import forms
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from .models import *
 from .forms import PatientForm, UserForm, UserLoginForm
+from django.urls import reverse
 
 # Create your views here.
 
@@ -13,14 +14,14 @@ def index(request):
 def PatientDashboard(request, pk):
     patient = get_object_or_404(Patient, user__pk=pk)
     context = {
-        'patient' : patient
+        'patient' : patient 
     }
     
     return render(request, 'patients/dashboard.html', context)
 
 def PatientProfile(request, pk):
     curr_patient=get_object_or_404(Patient, user__pk=pk)
-    return render(request, 'patients/patient_profile.html', {'patients': curr_patient.__str__()})
+    return render(request, 'patients/patient_profile.html', {'patient': curr_patient})
 
 
 def PatientSignUp(request):
@@ -78,4 +79,7 @@ def Messages(request):
     pass
 
 def PatientLogout(request):
-    pass
+    logout(request)
+    next_page = request.GET.get('next', 'PatientLogin')
+    return redirect(reverse(next_page))
+    
