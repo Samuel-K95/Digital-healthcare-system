@@ -3,13 +3,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/base.css' %}" />
     <link rel="stylesheet" href="{% static 'css/profile.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/chatdesign.css' %}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script defer src="{% static 'js/initial.js' %}"></script>
-    <script defer src="{% static 'js/currentPage.js' %}"></script>
+    <script defer src="{% static 'js/initial.js' %}" ></script>
+    <script defer src="{% static 'js/currentPage.js' %}" ></script>
+    <script defer src="{% static 'js/chat_toggle.js' %}" ></script>
     
     <title>Patient Portal</title>
 </head>
@@ -81,8 +84,66 @@
     </div>
 
     <div class="chat-bot">
-        <button><img src="{% static 'images/live-chat.png' %}" alt="chat-bot"></button>
+        <button id="chat-bot"><img src="{% static 'images/live-chat.png' %}" alt="chat-bot"></button>
+        <div id="overlay" class="hidden" >
+            <div id="overlayContent">
+                <div class="msg-container">
+                    <div class="msg-header">
+                        <div class="container1">
+                            <img src="{% static 'images/office-man.png' %}" class="msgimg" alt="message image" >
+                            <div class="active">
+                                <p>User name</p>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <div class="chat-page">
+                        <div class="msg-inbox">
+                            <div class="chats">
+                                <div class="msg-page">
+                                    <div class="received-chats">
+                                        <div class="received-chats-img">
+                                            <img src="{% static 'images/chat-bot.png' %}" />
+                                        </div>
+                
+                                        <div class="received-msg">
+                                            <div class="received-msg-inbox">
+                                                <p>Hi !! This is message from Riya . Lorem ipsum, dolor sit amet consectetur adipisicing elit. Non quas nemo eum, earum sunt, nobis similique quisquam eveniet pariatur commodi modi voluptatibus iusto omnis harum illum
+                                                    iste distinctio expedita illo!</p>
+                                                <span class="time">18:06 PM | July 24</span>
+                                            </div>
+                                        </div>
+                                    </div>
+            
+                                    <div class="outgoing-chats-img">
+                                        <img src="{% static 'images/office-man.png' %}">
+        
+                                    </div>
+                                    <div class="outgoing-chats">
+                                        <div class="outgoing-img">
+                                            <div class="outgoing-chats-msg">
+                                                <p class="multi-msg">Hi riya , Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo nobis deleniti earum magni recusandae assumenda.
+                                                </p>
+                                                <p class="multi-msg">Lorem ipsum dolor sit amet consectetur.</p>
+                                                <span class="time">18:30 PM | July 24 </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="msg-bottom">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Write message..." />
+                                    <div class="input-group-append">
+                                        <span class="input-group-text send-icon"><i class="bi bi-send"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-
 </body>
 </html>
