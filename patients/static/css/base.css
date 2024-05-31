@@ -127,12 +127,41 @@ nav{
     border: none;
 }
 
-.chat-bot :hover{
-    opacity: 0.6;
+#chat-bot :hover{
+    opacity: 0.7;
     cursor: pointer;
 }
 
-.chat-bot :active{
+#chat-bot :active{
     opacity: 0.5;
     cursor: pointer;
+}
+
+#overlay {
+    position: fixed;
+    top: 20px;
+    right: 100px;
+    bottom: 50px;
+    width: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.5s;
+}
+
+
+#overlayContent {
+    padding: 20px;
+    border-radius: 5px;
+}
+
+#overlay.visible {
+    visibility: visible;
+    opacity: 1;
+}
+
+.hidden {
+    display: none;
 }

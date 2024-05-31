@@ -6,7 +6,6 @@ from .models import *
 from .forms import PatientForm, UserForm, UserLoginForm
 from django.urls import reverse
 
-# Create your views here.
 
 def index(request):
     return HttpResponse("index home")
