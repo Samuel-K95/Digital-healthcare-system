@@ -197,8 +197,8 @@
 }
 
 .outgoing-chats-msg p{
-    background-color: #3a12ff;
-    background-image: linear-gradient(45deg, #ee087f 0%, #DD2A7B 25%, #9858ac 50%, #8134AF 75%, #515BD4 100%);
+    background-color: rgba(1, 50, 82, 0.842);
+    background-image: linear-gradient(135deg, #013256 0%, rgba(1, 50, 82, 0.842) 25%, #015a99 50%, #0282c4 75%, #0094d8 100%);
     color: #fff;
     border-radius: 10px;
     font-size: 14px;

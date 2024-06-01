@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from .models import *
+from . import gemini
 from .forms import PatientForm, UserForm, UserLoginForm
 from django.urls import reverse
 
@@ -42,6 +43,8 @@ def PatientSignUp(request):
             raw_password = user_form.cleaned_data.get('password1')
             user = authenticate(username = user.username, password = raw_password)
             login(request, user)
+            chat = gemini.Chat()
+            request.session['chat'] = chat.serialize()
             return redirect('PatientDashboard', pk = user.pk) 
     else:
         patient_form = PatientForm()
@@ -57,6 +60,8 @@ def PatientLogin(request):
             user = user_form.get_user()
             if user is not None:
                 login(request, user)
+                chat = gemini.Chat()
+                request.session['chat'] = chat.serialize()
                 return redirect('PatientDashboard', pk=user.pk)
     else:
         user_form  = UserLoginForm()
@@ -64,6 +69,17 @@ def PatientLogin(request):
     return render(request, 'patients/patient_login.html', {'user_form':user_form})
                 
 
+def chat_app(request):
+    chat_data = request.session.get('chat')
+    if chat_data:
+        chat = gemini.Chat.deserialize(chat_data)
+        if len(chat.messages) == 0:
+            rep = chat.gemini_new_request()
+        else:
+            rep = chat.gemini_request()
+
+        request.session['chat'] = chat.serialize()
+    return HttpResponse(rep)
 
 def Posts(request):
     pass
