@@ -71,7 +71,7 @@ nav{
 .search{
     position: fixed;
     top: 20px;
-    left: 40%;
+    left: 35%;
     display: flex;
 }
 
@@ -143,8 +143,8 @@ nav{
     right: 100px;
     bottom: 50px;
     width: 500px;
+    min-width: 500px;
     display: flex;
-    align-items: center;
     justify-content: center;
     visibility: hidden;
     opacity: 0;
@@ -153,8 +153,13 @@ nav{
 
 
 #overlayContent {
+    min-width: 500px;
     padding: 20px;
     border-radius: 5px;
+    display: flex;
+    align-items: flex-end;
+    height: auto;
+    min-height: 600px;
 }
 
 #overlay.visible {

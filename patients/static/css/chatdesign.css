@@ -7,10 +7,9 @@
 
 .msg-container{
     width: 100%;
-    margin: auto;
-    margin-top: 2rem;
     letter-spacing: 0.5px;
     height: 100%;
+    padding: 30px;
 }
 
 .msg-container img{
@@ -25,7 +24,7 @@
     border: 1x solid #ccc;
     color: white;
     width: 100%;
-    height: 20%;
+    height: 10%;
     border-bottom: none;
     display: inline-block;
     background-color:  rgba(1, 50, 82, 0.842);
@@ -56,30 +55,34 @@
 }
 
 .msg-container .chat-page{
-    padding: 0 0 50px 0;
+    padding: 0 0 30px 0;
+    height: 100%;
 }
 
 .msg-container .msg-inbox{
     background-color: white;
     border: 1px solid #ccc;
-    overflow: hidden;
+    overflow-y: auto;
+    height: 100%;
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
 }
 
 .msg-container .chats{
     padding: 30px 15px 0 25px;
+    height: 90%;
 }
 
 .msg-container .msg-page{
+    height: 100%;
     overflow-y: auto;
 }
 
 .msg-bottom{
     border-top: 1px solid #ccc;
     position: relative;
+    bottom: 0;
     height: 11%;
-    background-color:  rgba(1, 50, 82, 0.842);
 }
 
 .input-group{
@@ -92,7 +95,6 @@
     background-color: #fff;
     position: relative;
     display: flex;
-    flex-wrap: wrap;
     align-items: stretch;
     padding-left: 10px;
     padding-bottom: 3px;
@@ -102,7 +104,7 @@
 .input-group > .form-control{
     position:relative;
     flex: 1 1 auto;
-    width: 1%;
+    width: 100%;
     margin-bottom: 0;
 }
 
@@ -182,14 +184,6 @@
 .msg-container p{
     overflow-wrap: break-word;
 }
-
-.time{
-    color:  #777;
-    display: block;
-    font-size: 12px;
-    margin: 8px 0 0;
-}
-
 
 .outgoing-chats{
     overflow: hidden;

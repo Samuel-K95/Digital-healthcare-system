@@ -14,6 +14,6 @@ urlpatterns = [
     path('Doctors/<int:pk>', views.Doctors, name="Doctors"),
     path('Messages/<int:pk>', views.Messages, name="Messages"),
     path('PatientLogout/', views.PatientLogout, name="PatientLogout"),
-    path('PatientGeminiChat/', views.chat_app, name="PatientGeminiChat"),
+    path('GeminiChat/', views.GeminiChat, name="GeminiChat")
 ]
 

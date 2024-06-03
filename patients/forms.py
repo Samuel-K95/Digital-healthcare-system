@@ -1,3 +1,4 @@
+from typing import Any
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
@@ -37,3 +38,10 @@ class UserLoginForm(forms.Form):
     def get_user(self):
         return self.user
 
+
+
+class GeminiChatForm(forms.Form):
+    question = forms.CharField(
+        max_length=255, 
+        widget=forms.TextInput(attrs={'placeholder': 'Type your message here...'})
+    )

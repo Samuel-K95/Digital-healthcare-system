@@ -41,10 +41,9 @@ class Chat:
         self.messages = []
         self.response = ""
     
-    def gemini_new_request(self):
+    def gemini_new_request(self, current_feeling):
         model = genai.GenerativeModel('gemini-1.5-flash')
 
-        current_feeling = "i got into a car accident"
         self.messages = [{
             'role':'user',
             'parts': [prompt + current_feeling]
@@ -53,10 +52,8 @@ class Chat:
 
         return self.response
 
-    def gemini_request(self):
+    def gemini_request(self, current_feeling):
         model = genai.GenerativeModel('gemini-1.5-flash')
-
-        current_feeling = "theres a lot of bleeding, what shall i do? what was my accident though?"
 
         self.messages.append({
                 'role':'model',
