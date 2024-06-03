@@ -1,10 +1,10 @@
 from django import forms
 from django.shortcuts import get_object_or_404, render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from .models import *
 from . import gemini
-from .forms import PatientForm, UserForm, UserLoginForm
+from .forms import PatientForm, UserForm, UserLoginForm, GeminiChatForm
 from django.urls import reverse
 
 
@@ -69,17 +69,26 @@ def PatientLogin(request):
     return render(request, 'patients/patient_login.html', {'user_form':user_form})
                 
 
-def chat_app(request):
-    chat_data = request.session.get('chat')
-    if chat_data:
-        chat = gemini.Chat.deserialize(chat_data)
-        if len(chat.messages) == 0:
-            rep = chat.gemini_new_request()
-        else:
-            rep = chat.gemini_request()
+def GeminiChat(request):
+    print(request.POST)
+    if request.method == 'POST':
+        chat_form = GeminiChatForm(request.POST)
+        print("valid?", chat_form.is_valid())
+        if chat_form.is_valid():
+            chat_data = request.session.get('chat')
+            if chat_data:
+                chat = gemini.Chat.deserialize(chat_data)
+                if len(chat.messages) == 0:
+                    rep = chat.gemini_new_request(chat_form.cleaned_data.get('question'))
+                else:
+                    rep = chat.gemini_request(chat_form.cleaned_data.get('question'))
 
-        request.session['chat'] = chat.serialize()
-    return HttpResponse(rep)
+                request.session['chat'] = chat.serialize()
+            return JsonResponse({'response' :rep})
+    else:
+        chat_form = GeminiChatForm()
+    
+    return render(request, 'patients/base.html', {'chat_form': chat_form})
 
 def Posts(request):
     pass

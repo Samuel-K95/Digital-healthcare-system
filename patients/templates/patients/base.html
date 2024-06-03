@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{% static 'css/base.css' %}" />
     <link rel="stylesheet" href="{% static 'css/profile.css' %}" />
     <link rel="stylesheet" href="{% static 'css/chatdesign.css' %}" />
-    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css"> -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script defer src="{% static 'js/initial.js' %}" ></script>
     <script defer src="{% static 'js/currentPage.js' %}" ></script>
@@ -99,46 +99,23 @@
             
                     <div class="chat-page">
                         <div class="msg-inbox">
-                            <div class="chats">
-                                <div class="msg-page">
-                                    <div class="received-chats">
-                                        <div class="received-chats-img">
-                                            <img src="{% static 'images/chat-bot.png' %}" />
-                                        </div>
-                
-                                        <div class="received-msg">
-                                            <div class="received-msg-inbox">
-                                                <p>Hi !! This is message from Riya . Lorem ipsum, dolor sit amet consectetur adipisicing elit. Non quas nemo eum, earum sunt, nobis similique quisquam eveniet pariatur commodi modi voluptatibus iusto omnis harum illum
-                                                    iste distinctio expedita illo!</p>
-                                                <span class="time">18:06 PM | July 24</span>
-                                            </div>
-                                        </div>
-                                    </div>
-            
-                                    <div class="outgoing-chats-img">
-                                        <img src="{% static 'images/office-man.png' %}">
-        
-                                    </div>
-                                    <div class="outgoing-chats">
-                                        <div class="outgoing-img">
-                                            <div class="outgoing-chats-msg">
-                                                <p class="multi-msg">Hi riya , Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo nobis deleniti earum magni recusandae assumenda.
-                                                </p>
-                                                <p class="multi-msg">Lorem ipsum dolor sit amet consectetur.</p>
-                                                <span class="time">18:30 PM | July 24 </span>
-                                            </div>
-                                        </div>
-                                    </div>
+                            <div class="chats" id="chats">
+                                <div class="msg-page" id="msg-page">
+                                    
                                 </div>
                             </div>
+
                             <div class="msg-bottom">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Write message..." />
-                                    <div class="input-group-append">
-                                        <span class="input-group-text send-icon"><i class="bi bi-send"></i></span>
+                                <form method="POST" action="{% url 'GeminiChat' %}" id="chat-form">{% csrf_token %}
+                                    <div class="input-group">
+                                        <input type="text" name="question" class="form-control" placeholder="Type your message here...">
+                                        <div class="input-group-append">
+                                            <span id="send-icon" class="input-group-text send-icon"><i class="bi bi-send"></i></span>
+                                        </div>
                                     </div>
-                                </div>
+                                </form>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -146,4 +123,62 @@
         </div>
     </div>
 </body>
+<script>
+    $(document).ready(function() {
+        $('#chat-form').on('submit', function(event) {
+            event.preventDefault();
+        });
+    });
+    
+    $(document).ready(function() {
+        $('#send-icon').click(function() {
+            var chatFormValue = $('#chat-form input[name="question"]').val();
+
+            var outgoing =`
+            <div class="outgoing-chats-container" id="outgoing-chats-container">
+                    <div class="outgoing-chats">
+                        <div class="outgoing-chats-img">
+                            <img src="{% static 'images/office-man.png' %}">
+                        </div>
+                        <div class="outgoing-img">
+                            <div class="outgoing-chats-msg">
+                                <p>` + chatFormValue + `</p>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            `
+            $('#msg-page').append(outgoing)
+
+            $.ajax({
+                url: $('#chat-form').attr('action'),
+                type: 'POST',
+                data: $('#chat-form').serialize(),
+                
+                success: function(response) {
+                    console.log(response);
+                    var incoming = `
+                        <div class="received-chats" id="received-chats">
+                            <div class="received-chats-img">
+                                <img src="{% static 'images/chat-bot.png' %}" />
+                            </div>
+
+                            <div class="received-msg">
+                                <div class="received-msg-inbox" id="received-msg-inbox">
+                                    <p>` + response.response + `</p>
+                                </div>
+                            </div>
+                        </div>
+                        `;
+                    $('#msg-page').append(incoming );
+                    $('#chat-form .form-control').val('');
+                },
+                error: function(xhr, errmsg, err) {
+                    console.log(xhr.status + ": " + xhr.responseText);
+                }
+            });
+            return false;
+        });
+    });
+</script>
 </html>
