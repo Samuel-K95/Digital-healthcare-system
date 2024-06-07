@@ -143,7 +143,6 @@ nav{
     right: 100px;
     bottom: 50px;
     width: 500px;
-    min-width: 500px;
     display: flex;
     justify-content: center;
     visibility: hidden;
