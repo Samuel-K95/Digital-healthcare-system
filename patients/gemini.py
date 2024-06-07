@@ -42,32 +42,38 @@ class Chat:
         self.response = ""
     
     def gemini_new_request(self, current_feeling):
-        model = genai.GenerativeModel('gemini-1.5-flash')
+        try:
+            model = genai.GenerativeModel('gemini-1.5-flash')
 
-        self.messages = [{
-            'role':'user',
-            'parts': [prompt + current_feeling]
-        }]
-        self.response = model.generate_content(self.messages).text
+            self.messages = [{
+                'role':'user',
+                'parts': [prompt + current_feeling]
+            }]
+            self.response = model.generate_content(self.messages).text
 
-        return self.response
+            return self.response
+        except:
+            return "An error has occured, please try again"
 
     def gemini_request(self, current_feeling):
-        model = genai.GenerativeModel('gemini-1.5-flash')
+        try:
+            model = genai.GenerativeModel('gemini-1.5-flash')
 
-        self.messages.append({
-                'role':'model',
-                'parts':[self.response]
+            self.messages.append({
+                    'role':'model',
+                    'parts':[self.response]
+                })
+
+            self.messages.append({
+                'role': 'user',
+                'parts':[current_feeling]
             })
 
-        self.messages.append({
-            'role': 'user',
-            'parts':[current_feeling]
-        })
+            self.response = model.generate_content(self.messages).text
 
-        self.response = model.generate_content(self.messages).text
-
-        return self.response
+            return self.response
+        except:
+            return "An error has occured, please try again"
     
     def serialize(self):
         return json.dumps({

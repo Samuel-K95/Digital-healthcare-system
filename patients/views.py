@@ -70,10 +70,8 @@ def PatientLogin(request):
                 
 
 def GeminiChat(request):
-    print(request.POST)
     if request.method == 'POST':
         chat_form = GeminiChatForm(request.POST)
-        print("valid?", chat_form.is_valid())
         if chat_form.is_valid():
             chat_data = request.session.get('chat')
             if chat_data:
