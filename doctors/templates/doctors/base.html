@@ -1,0 +1,188 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/base.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/chatdesign.css' %}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script defer src="{% static 'js/initial.js' %}" ></script>
+    <script defer src="{% static 'js/currentPage.js' %}" ></script>
+    <script defer src="{% static 'js/chat_toggle.js' %}" ></script>
+    
+    <title>Patient Portal</title>
+</head>
+
+<body>
+    <nav class="nav-bar">
+        <header class="Patient-portal">
+            <img src="{% static 'images/electrocardiogram.png' %}"/>
+            <p>Patient Portal</p>
+        </header>
+        
+        <form method="POST"  action="{% url 'PatientDashboard' user.pk %}">{% csrf_token %}
+            <div class="dashboard-container">
+                <img src="{% static 'images/dashboard.png' %}">
+                <button class="dash-button">Dashboard</button>
+            </div>
+        </form>
+
+        <form method="POST" action="{% url 'Posts' user.pk %}">{% csrf_token %}
+            <div class="posts">
+                <img src="{% static 'images/social.png' %}" alt="posts">
+                <button class="posts-button">Posts</button>
+            </div>
+        </form>
+
+        <form method="POST" action="{% url 'PatientAppointments' user.pk  %}">{% csrf_token %}
+            <div class="appointments">
+                <img src="{% static 'images/appointment.png' %}">
+                <button class="appointment-button">Appointments</button>
+            </div>
+        </form>
+
+        <form method="POST" action="{% url 'Doctors' user.pk  %}">{% csrf_token %}
+            <div class="doctors">
+                <img src="{% static 'images/medical-team.png' %}">
+                <button class="Doctors-button">Doctors</button>
+            </div>
+        </form>
+
+        <form method="POST" action="{% url 'Messages' user.pk  %}">{% csrf_token %}
+            <div class="messages">
+                <img src="{% static 'images/comments.png' %}" >
+                <button class="message-button">Messages</button>
+            </div>
+        </form>
+
+        <form method="POST" action="{% url 'PatientProfile' user.pk  %}">{% csrf_token %}
+            <div class="profile">
+                <img src="{% static 'images/user.png' %}" alt="profile">
+                <button class="profile-button">Profile</button>
+            </div>
+        </form>
+
+        <form method="POST" action="{% url 'PatientLogout' %}">{% csrf_token %}
+            <div class="logout">
+                <img src="{% static 'images/logout.png' %}" alt="logout">
+                <button class="logout-button">Log out</button>
+            </div>
+        </form>
+    </nav>
+    <div class="search">
+        <div class="left-search"><p>Search</p></div>
+        <input type="text" class="search-input" placeholder="Type Dr's name to search...">
+        <div class="right-search"><img src="{% static 'images/magnifying-glass.png' %}" alt="magnifying"></div>
+    </div>
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <div class="chat-bot">
+        <button id="chat-bot"><img src="{% static 'images/live-chat.png' %}" alt="chat-bot"></button>
+        <div id="overlay" class="hidden" >
+            <div id="overlayContent">
+                <div class="msg-container">
+                    <div class="msg-header">
+                        <div class="container1">
+                            <img src="{% static 'images/office-man.png' %}" class="msgimg" alt="message image" >
+                            <div class="active">
+                                <p>User name</p>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <div class="chat-page">
+                        <div class="msg-inbox">
+                            <div class="chats" id="chats">
+                                <div class="msg-page" id="msg-page">
+                                    
+                                </div>
+                            </div>
+
+                            <div class="msg-bottom">
+                                <form method="POST" action="{% url 'GeminiChat' %}" id="chat-form">{% csrf_token %}
+                                    <div class="input-group">
+                                        <input type="text" name="question" class="form-control" placeholder="Type your message here..." required>
+                                        <div class="input-group-append">
+                                            <span id="send-icon" class="input-group-text send-icon"><i class="bi bi-send"></i></span>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    $(document).ready(function() {
+        $('#chat-form').on('submit', function(event) {
+            event.preventDefault();
+        });
+    });
+    
+    $(document).ready(function() {
+        $('#send-icon').click(function() {
+            var chatFormValue = $('#chat-form input[name="question"]').val();
+            if (chatFormValue === ''){
+                alert('Input required!');
+            }
+            else{
+                var outgoing =`
+                <div class="outgoing-chats-container" id="outgoing-chats-container">
+                        <div class="outgoing-chats">
+                            <div class="outgoing-chats-img">
+                                <img src="{% static 'images/office-man.png' %}">
+                            </div>
+                            <div class="outgoing-img">
+                                <div class="outgoing-chats-msg">
+                                    <p>` + chatFormValue + `</p>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                `
+                $('#msg-page').append(outgoing)
+
+                $.ajax({
+                    url: $('#chat-form').attr('action'),
+                    type: 'POST',
+                    data: $('#chat-form').serialize(),
+                    
+                    success: function(response) {
+                        console.log(response);
+                        var incoming = `
+                            <div class="received-chats" id="received-chats">
+                                <div class="received-chats-img">
+                                    <img src="{% static 'images/chat-bot.png' %}" />
+                                </div>
+
+                                <div class="received-msg">
+                                    <div class="received-msg-inbox" id="received-msg-inbox">
+                                        <p>` + response.response + `</p>
+                                    </div>
+                                </div>
+                            </div>
+                            `;
+                        $('#msg-page').append(incoming );
+                        $('#chat-form .form-control').val('');
+                    },
+                    error: function(xhr, errmsg, err) {
+                        console.log(xhr.status + ": " + xhr.responseText);
+                    }
+                });
+            }
+            return false;
+        });
+    });
+</script>
+</html>
