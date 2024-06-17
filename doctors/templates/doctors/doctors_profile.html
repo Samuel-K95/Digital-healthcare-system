@@ -1,0 +1,65 @@
+{% extends 'Doctors/base.html' %}
+
+{% block content %}
+    <div class="all">
+        <div class="top-div">
+            <div id="profileImage"></div>
+
+            <div class="Name-user">
+                <p><span id="firstName">{{ Doctor.fname }}</span> <span id="lastName">{{ Doctor.lname }}</span></p>
+                <p>@{{ Doctor.user.username }}</p>
+            </div>
+
+            <button class="edit-button">Edit</button>
+        </div>
+
+        <div class="center-div">
+            <p>About Me</p>
+
+            <div class="contents">
+                <div class="first-div">
+                    <div class="first-inside">
+                        <p>Full Name</p>
+                        <input type="text" value="{{ Doctor.fname }} {{ Doctor.lname }}" id="editable-input" readonly>
+                    </div>
+                </div>
+                <div class="second-div">
+                    <div class="second-inside">
+                        <p>Email</p>
+                        <input type="Email" value='{{ Doctor.email }}'id="non-editable-email" readonly>
+                    </div>
+                </div>
+                <div class="third-div">
+                    <div class="third-inside">
+                        <p>Date of Birth</p>
+                        <input type="date" value='{{ Doctor.date_of_birth }}' id="non-editable date" readonly>
+                    </div>
+                </div>
+                <div class="fourth-div">
+                    <div class="fourth-inside">
+                        <p>Password</p>
+                        <input type="password" value='{{ Doctor.password }}' id="editable-pass" readonly>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bottom-div">
+            <h2>Medical History</h2>
+
+            <div class="bottom-inside">
+                <h3>Past Dignosis</h3>
+                <p>Hypertension</p>
+                <p>Type two Diabetes</p>
+
+                <h3>Past Treamtments</h3>
+                <p>Medication for Hypertension</p>
+                <p>Insulin Therapy for Diabetes</p>
+
+                <h3>Ongoing Conditions</h3>
+                <p>Hypertension</p>
+                <p>Type2 Diabetes</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
