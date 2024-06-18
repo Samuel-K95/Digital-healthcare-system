@@ -1,5 +1,67 @@
-{% extends 'patients/base.html' %}
+{% extends "base.html" %}
+{% load static %}
 
 {% block content %}
+<div class="min-h-screen flex flex-col lg:flex-row">
+  <!-- Burger menu for small screens -->
+  <div class="bg-gray-800 text-white w-full lg:hidden">
+    <div class="flex items-center justify-between p-4">
+      <img src="{% static 'assets/images/logooo.png' %}" alt="logo" class="w-32">
+      <button id="burger-menu" class="text-white focus:outline-none">
+        <ion-icon name="menu-outline" size="large"></ion-icon>
+      </button>
+    </div>
+  </div>
 
+  <!-- Sidebar -->
+  <div id="sidebar" class="bg-gray-800 text-white w-64 flex-shrink-0 hidden lg:block fixed lg:relative top-0 left-0 h-full lg:h-auto z-50 lg:z-auto">
+    <div class="flex items-center justify-center py-6">
+      <img src="{% static 'images/logo.png' %}" alt="logo" class="w-32">
+    </div>
+    <nav class="mt-10">
+      <a href="{% url 'DoctorProfile' %}" class="flex items-center p-2 text-sm font-medium rounded-lg hover:bg-gray-200 transition">
+        <ion-icon name="person-circle"></ion-icon>
+        <span class="ml-3">My profile</span>
+      </a>
+      <a href="{% url 'DoctorProfile' %}" class="flex items-center p-2 text-sm font-medium rounded-lg hover:bg-gray-200 transition">
+        <ion-icon name="pencil"></ion-icon>
+        <span class="ml-3">Appointments</span>
+      </a>
+
+      <a href="{% url 'DoctorProfile' %}" class="flex items-center p-2 text-sm font-medium rounded-lg hover:bg-gray-200 transition">
+        <ion-icon name="checkmark-circle"></ion-icon>
+        <span class="ml-3">Chats</span>
+      </a>
+      
+      <a href="{% url 'DoctorProfile' %}" class="flex items-center p-2 text-sm font-medium rounded-lg hover:bg-gray-200 transition">
+        <ion-icon name="book"></ion-icon>
+        <span class="ml-3">Patients</span>
+      </a>
+      <a href="{% url 'DoctorProfile' %}" class="flex items-center p-2 text-sm font-medium rounded-lg hover:bg-gray-200 transition">
+        <ion-icon name="book"></ion-icon>
+        <span class="ml-3">Posts</span>
+      </a>
+      <a href="{% url 'DoctorLogout' %}" class="flex items-center p-2 text-sm font-medium rounded-lg hover:bg-gray-200 transition">
+        <ion-icon name="book"></ion-icon>
+        <span class="ml-3">Log Out</span>
+      </a>
+
+      
+    </nav>
+  </div>
+
+  <!-- Main content -->
+  <div class="flex-grow bg-gray-100 p-6">
+    {% block dashboard_content %}
+    <!-- Placeholder for actual content -->
+    {% endblock %}
+  </div>
+</div>
+
+<script>
+  document.getElementById('burger-menu').addEventListener('click', function() {
+    const sidebar = document.getElementById('sidebar');
+    sidebar.classList.toggle('hidden');
+  });
+</script>
 {% endblock %}

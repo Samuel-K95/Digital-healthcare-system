@@ -1,0 +1,105 @@
+{% extends 'doctors/dashboard.html' %}
+{% load static %}
+
+{% block dashboard_content %}
+<div class="bg-gray-200 font-[sans-serif] text-[#333]">
+  <div class="min-h-screen flex flex-col items-center justify-center py-6 px-4">
+    <div class="max-w-3xl w-full border py-8 px-6 rounded border-gray-300 bg-white">
+      <a href="javascript:void(0)"><img src="{% static 'images/logo.png' %}" alt="logo" class='w-40 mb-10' /></a>
+      <h1 class="text-center text-3xl font-extrabold text-gray-800">Welcome Dr. {{ doc.first_name }}</h1>
+      <h2 class="text-2xl text-center text-gray-700 mt-2">Edit Your Profile</h2>
+
+      <hr class="my-4">
+      <form action="{% url 'DoctorProfile' %}" method="POST" enctype="multipart/form-data" class="mt-10 space-y-4">
+        {% csrf_token %}
+        <div class="flex flex-col items-center">
+          <div class="flex flex-col items-center">
+          
+            <div class="w-58 h-58 rounded-full mb-4" >
+              <label for="id_profile_picture" class="profile-picture-label">
+                <img src="{{ doc.photo.url }}" class="w-48 h-48 rounded-full mb-4" alt="User Image">
+              <div class="ml-24 text-sm -mt-3 mb-4 flex text-center items-center">
+              <ion-icon class="gray-600" name="pencil"></ion-icon>
+              </div>
+              
+              </div>
+              
+          </div>            
+        </div>
+
+        
+          
+        
+
+        <div class="flex justify-center">
+          <div class="w-3/4">
+            <div class="space-y-4">
+           
+              <label for="first_name" class="block text-sm font-medium text-gray-700">First Name</label>
+              <div class="w-full text-sm px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                {{ form.first_name }}
+              </div>
+
+              <label for="last_name" class="block text-sm font-medium text-gray-700">Last Name</label>
+              <div class="w-full text-sm px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                {{ form.last_name }}
+              </div>
+
+              <label for="id_email" class="block text-sm font-medium text-gray-700">Email</label>
+              <div class="w-full text-sm px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                {{ form.email}}
+              </div>
+
+              <label for="id_specialization" class="block text-sm font-medium text-gray-700">Specialization</label>
+              <div class="w-full text-sm px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                {{ form.specialization }}
+              </div>
+
+              <label for="id_photo" class="block text-sm font-medium text-gray-700">Photo</label>
+              <div class="w-full text-sm px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                {{ form.photo }}
+              </div>
+
+              <label for="id_medical_licence" class="block text-sm font-medium text-gray-700">Medical Licence</label>
+              <div class="w-full text-sm px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                {{ form.medical_licence }}
+              </div>
+
+              <label for="id_passport_or_id_number" class="block text-sm font-medium text-gray-700">Passport or ID Number</label>
+              <div class="w-full text-sm px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                {{ form.passport_or_id_number }}
+              </div>
+
+              <label for="id_phone_number" class="block text-sm font-medium text-gray-700">Phone Number</label>
+              <div class="w-full text-sm px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                {{ form.phone_number }}
+              </div>
+
+              <label for="id_date_issued" class="block text-sm font-medium text-gray-700">Date Issued</label>
+              <div class="w-full text-sm px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                {{ form.date_issued }}
+              </div>
+
+              <label for="id_expiry_date" class="block text-sm font-medium text-gray-700">Expiry Date</label>
+              <div class="w-full text-sm px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                {{ form.expiry_date }}
+              </div>
+
+              <label for="id_date_of_birth" class="block text-sm font-medium text-gray-700">Date of Birth</label>
+              <div class="w-full text-sm px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                {{ form.date_of_birth }}
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="flex justify-center mt-6">
+          <button type="submit" class="w-3/4 py-2.5 px-4 text-sm rounded text-center text-white bg-blue-500 hover:bg-blue-600 focus:outline-none transition duration-200">
+            Save
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -21,16 +21,16 @@ class Doctor(models.Model):
 
     # verification details
     national_id_or_passport_image = models.ImageField(upload_to='doctors/verification', blank=True, null=True)
-    phone_number = models.IntegerField(default=True, blank=True, null=True)
+    phone_number = models.CharField(max_length=14,default=True, blank=True, null=True)
     photo = models.ImageField(upload_to='doctors/account',  null=True, blank=True)
     medical_licence = models.ImageField(upload_to='doctors/verification',  null=True, blank=True)
-    passport_or_id_number = models.IntegerField(blank=True, null=True)
+    passport_or_id_number = models.CharField(max_length=20, blank=True, null=True)
     date_issued = models.DateField(blank=True, null=True)
     expiry_date = models.DateField(blank=True, null=True)
     date_of_birth = models.DateField(blank=True, null=True)
     
     #specialization
-    specialization = models.TextField(max_length=1000, blank=True, null=True, default="")
+    specialization = models.CharField(max_length=1000, blank=True, null=True, default="")
 
     #ratings
     rating = models.FloatField(default=0.0, null=True, blank=True)
