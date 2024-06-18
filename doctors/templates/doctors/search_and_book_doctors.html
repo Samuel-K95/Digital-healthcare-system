@@ -1,0 +1,101 @@
+{% extends 'doctors/dashboard.html' %}
+{% load static %}
+{% block dashboard_content %}
+
+
+
+<div class="bg-gray-800">
+
+  <div class="pt-24 container mx-auto p-4">
+    <div class="bg-white shadow rounded-lg p-6">
+      <h2 class="text-2xl font-semibold text-center mb-4">Find Doctors</h2>
+      <form action="{% url 'BrowseDoctors' %}" method="get">
+        
+        <div class="flex flex-col md:flex-row items-center justify-center gap-1 mb-4">
+          
+          <div class="w-full md:w-2/4">
+            <input type="text" name="query" value="{{ query }}" class="w-full p-2 border border-gray-300 rounded" placeholder="Doctor name, specialization">
+          </div>
+          
+          <div class="w-full md:w-1/4">
+            <button class="w-full p-2 bg-red-600 text-white text-center rounded hover:bg-red-700">Search</button>
+          </div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div>
+            <label for="city" class="block mb-2">City</label>
+            <input type="text" name="city" id="city" value="{{ city }}" class="w-full p-2 border border-gray-300 rounded" placeholder="Enter city">
+          </div>
+          <div>
+            <label for="region" class="block mb-2">Region</label>
+            <input type="text" name="region" id="region" value="{{ region }}" class="w-full p-2 border border-gray-300 rounded" placeholder="Enter region">
+          </div>
+          
+        <div>
+          <label for="years_of_experience" class="block mb-2">Years of Experience</label>
+          <input type="number" name="years_of_experience" id="years_of_experience" value="{{ years_of_experience }}" class="w-full p-2 border border-gray-300 rounded" placeholder="Enter years of experience" min="0">
+        </div>
+        <div>
+          <label for="languages" class="block mb-2">Languages</label>
+          <input type="text" name="languages" id="languages" value="{{ languages }}" class="w-full p-2 border border-gray-300 rounded" placeholder="Enter languages (comma-separated)">
+        </div>
+        <div>
+          <label for="doctor_type" class="block mb-2">Doctor Type</label>
+          <input type="text" name="doctor_type" id="doctor_type" value="{{ doctor_type }}" class="w-full p-2 border border-gray-300 rounded" placeholder="Enter specialization ">
+        </div>
+        <div>
+          <label for="specialization" class="block mb-2">Specialization</label>
+          <input type="text" name="specialization" id="specialization" value="{{ specialization }}" class="w-full p-2 border border-gray-300 rounded" placeholder="Enter doctor type (e.g., general practitioner, cardiologist)">
+        </div>
+        <div>
+          <label for="rating" class="block mb-2">Rating</label>
+          <select id="rating" name="rating" class="w-full p-2 border border-gray-300 rounded">
+            <option value='' selected>Choose...</option>
+            {% for i in "012345" %}
+            <option value="{{ i }}" {% if rating|stringformat:"s" == i|stringformat:"s" %}selected{% endif %}>{{ i }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        
+        <div  class="mt-6 ">
+          <button class="w-full p-2 bg-red-700 text-center text-white rounded hover:bg-orange-900 mt-4 md:mt-0">Apply Filters</button>
+        </div>
+        <div class="mt-6 ">
+          <a href="{% url 'BrowseDoctors' %}" class="block w-full p-2 bg-gray-600 text-white text-center rounded hover:bg-gray-700 mt-4 md:mt-0">Clear Filters</a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<section class="browse" id="browse">
+  <div class="container mx-auto p-4">
+    <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {% for doctor in doctors %}
+      <li class="bg-white shadow rounded-lg overflow-hidden">
+        <img src="{{ doctor.photo.url }}" alt="{{ doctor.first_name }} {{ doctor.last_name }}" class="w-full h-48 object-cover">
+        <div class="p-4">
+          <h3 class="text-xl font-semibold mb-2">
+            <a href="{% url 'DoctorDetail' doctor.id %}" class="text-gray-800 hover:underline">{{ doctor.first_name }} {{ doctor.last_name }}</a>
+          </h3>
+          <p class="text-gray-600 mb-2">
+            <strong>Specialization:</strong> {{ doctor.specialization }}<br>
+            <strong>Doctor Type:</strong> {{ doctor.doctor_type }}<br>
+            <strong>Rating:</strong> {{ doctor.rating }}<br>
+            <strong>Location:</strong> {{ doctor.city }}, {{ doctor.region }}, {{ doctor.country }}<br>
+            <strong>Years of Experience:</strong> {{ doctor.years_of_experience }}<br>
+            <strong>Languages:</strong> {{ doctor.languages }}
+          </p>
+          <a href="{% url 'DoctorDetail' doctor.id %}" class="block w-full text-center p-2 bg-red-600 text-white rounded hover:bg-red-900">Book Appointment</a>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+</div> 
+
+
+
+{% endblock %}

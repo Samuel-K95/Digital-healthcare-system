@@ -15,10 +15,10 @@ from django.contrib import auth
 #login and logout
 
 
-def DoctorDashboard(request):
-    doctor = get_object_or_404(Doctor, user=request.user)
+def DoctorDetail(request,pk):
+    doctors = Doctor.objects.get(id=pk)
     context = {
-        'doctor' : doctor  
+        'doctors' : doctors  
     }
     
     return render(request, 'doctors/dashboard.html', context)
@@ -97,6 +97,82 @@ def DoctorLogin(request):
   
   return render(request, 'doctors/doctors_login.html')
                 
+
+
+from django.db.models import Q
+
+def BrowseDoctors(request):
+
+    if(request.user.is_authenticated):
+        template = 'doctors/search_and_book_doctors.html'
+    else:
+        template = 'doctors/browse_doctors.html'
+
+
+    query = request.GET.get('query', '')
+    city = request.GET.get('city', '')
+    region = request.GET.get('region', '')
+    country = request.GET.get('country', '')
+    years_of_experience = request.GET.get('years_of_experience', '')
+    languages = request.GET.get('languages', '')
+    doctor_type = request.GET.get('doctor_type', '')
+    rating = request.GET.get('rating', '')
+
+    doctors = Doctor.objects.filter(verification_status='approved')
+
+    # Filter by city
+    if city:
+        doctors = doctors.filter(city__iexact=city)
+
+    # Filter by region
+    if region:
+        doctors = doctors.filter(region__iexact=region)
+
+    # Filter by country
+    if country:
+        doctors = doctors.filter(country__iexact=country)
+
+    # Filter by years of experience
+    if years_of_experience:
+        doctors = doctors.filter(years_of_experience__gte=years_of_experience)
+
+    # Filter by languages
+    if languages:
+        doctors = doctors.filter(languages__icontains=languages)
+
+    # Filter by doctor type
+    if doctor_type:
+        doctors = doctors.filter(doctor_type__iexact=doctor_type)
+
+    # Filter by rating
+    if rating:
+        doctors = doctors.filter(rating__gte=rating)
+
+    # Search by query
+    if query:
+        doctors = doctors.filter(
+            Q(first_name__icontains=query) |
+            Q(last_name__icontains=query) |
+            Q(specialization__icontains=query)
+        )
+
+    # Order by rating (descending)
+    doctors = doctors.order_by('-rating')
+
+    context = {
+        'doctors': doctors,
+        'query': query,
+        'city': city,
+        'region': region,
+        'country': country,
+        'years_of_experience': years_of_experience,
+        'languages': languages,
+        'doctor_type': doctor_type,
+        'rating': rating,
+    }
+
+    return render(request, template, context)
+
 
 def Posts(request):
     pass
