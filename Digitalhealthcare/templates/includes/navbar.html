@@ -24,7 +24,7 @@
                   <li class="md:ml-4"><a class="py-2 inline-block md:text-white md:px-2 font-semibold"
                     href="{% url 'PatientSignUp' %}">Patients</a></li>
                     <li class="md:ml-4"><a class="py-2 inline-block md:text-white md:px-2 font-semibold"
-                        href="#">Doctors</a></li>
+                        href="{% url 'DoctorSignUp' %}">Doctors</a></li>
                         <li class="md:ml-4 md:hidden lg:block"><a class="py-2 inline-block md:text-white md:px-2 font-semibold"
                             href="#">Blog</a></li>
                             
@@ -35,6 +35,16 @@
                   <a class="inline-block font-semibold px-4 py-2 text-white bg-blue-600 md:bg-transparent md:text-white border border-white rounded"
                     href="{% url 'home' %}">Book Appointment</a>
                 </li>
+
+
+                {% if user.is_authenticated %}
+
+                <li class="md:ml-6 mt-3 md:mt-0">
+                  <a class="inline-block font-semibold px-4 py-2 text-white bg-blue-600 md:bg-transparent md:text-white border border-white rounded"
+                  href="{% url 'DoctorLogout' %}">LogOut</a>
+                </li>
+                {% endif %}
+                
               </ul>
             </nav>
           </div>

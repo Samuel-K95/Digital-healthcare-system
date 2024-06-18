@@ -20,26 +20,20 @@
         <div class="container">
             <form method='POST' action="{% url 'DoctorSignUp' %}">{% csrf_token %}
                 <p class="top-p">Sign up</p>
-                <div class="form-group">
-                    <p>User name</p>
-                    {{ user_form.username }}
-                    {% for error in user_form.username.errors %}
-                        <div class="error">{{ error }}</div>
-                    {% endfor %}
-                </div>
+             
 
                 <div class="form-group">
                     <p>First name</p>
-                    {{ Doctor_form.fname }}
-                    {% for error in Doctor_form.fname.errors %}
+                    {{ doc_form.first_name }}
+                    {% for error in doc_form.first_name.errors %}
                         <div class="error">{{ error }}</div>
                     {% endfor %}
                 </div>
 
                 <div class="form-group">
                     <p>Last name</p>
-                    {{ Doctor_form.lname }}
-                    {% for error in Doctor_form.lname.errors %}
+                    {{ doc_form.last_name }}
+                    {% for error in Doctor_form.last_name.errors %}
                         <div class="error">{{ error }}</div>
                     {% endfor %}
                 </div>
