@@ -3,28 +3,39 @@ from django.http import HttpResponse
 from django import forms
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse, JsonResponse
-from django.contrib.auth import authenticate, login, logout
 from .models import Doctor
-from .forms import DoctorsProfileForm, UserLoginForm, UserForm
+from .forms import DoctorProfileForm, UserLoginForm, UserForm
 from django.urls import reverse
 from django.contrib import messages
+from django.contrib.auth.models import User
+#login and logout
+
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import auth
+#login and logout
 
 
-
-def index(request):
-    return HttpResponse("index home")
-
-def DoctorDashboard(request, pk):
-    doctor = get_object_or_404(Doctor, user__pk=pk)
+def DoctorDashboard(request):
+    doctor = get_object_or_404(Doctor, user=request.user)
     context = {
         'doctor' : doctor  
     }
     
     return render(request, 'doctors/dashboard.html', context)
 
-def DoctorProfile(request, pk):
-    curr_doctor = get_object_or_404(Doctor, user__pk=pk)
-    return render(request, 'doctors/doctors_profile.html', {'doctor': curr_doctor})
+
+
+def DoctorProfile(request):
+    doctor = get_object_or_404(Doctor, user=request.user)
+    if request.method == 'POST':
+        form = DoctorProfileForm(request.POST, request.FILES, instance=doctor)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your profile has been updated successfully.')
+            return redirect('DoctorProfile')
+    else:
+        form = DoctorProfileForm(instance=doctor)
+    return render(request, 'doctors/doctor_profile.html', {'form': form, 'doc':doctor})
 
 def registerDoctor(request):
     if request.method == 'POST':
@@ -50,7 +61,7 @@ def registerDoctor(request):
             login(request,user)
             
             # doc_form = DoctorsProfileForm()
-            redirect('home')
+            redirect('DoctorProfile')
 
 
         else:
@@ -70,18 +81,21 @@ def registerDoctor(request):
 
 
 def DoctorLogin(request):
-    if request.method == 'POST':
-        user_form  = UserLoginForm(request.POST)
+  if request.method == 'POST':
+    username = request.POST['username']
+    password = request.POST['password1']
 
-        if user_form.is_valid():
-            user = user_form.get_user()
-            if user is not None:
-                login(request, user)
-                redirect('home')
+    user = authenticate(username=username, password=password)
+
+    if user is not None:
+      auth.login(request, user)
+      return redirect('DoctorProfile')  
     else:
-        user_form  = UserLoginForm()
-    
-    return render(request, 'doctors/doctors_login.html', {'user_form':user_form})
+      # Login failed
+      messages.error(request, 'Invalid username or password!')
+      return redirect('DoctorLogin')
+  
+  return render(request, 'doctors/doctors_login.html')
                 
 
 def Posts(request):

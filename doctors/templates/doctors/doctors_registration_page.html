@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-<div class="bg-gray-200 font-[sans-serif] text-[#333]">
+<div class="bg-gray-800 pt-28 font-[sans-serif] text-[#333]">
   <div class="min-h-screen flex flex-col items-center justify-center py-6 px-4">
     
     {% if messages %}
@@ -25,7 +25,6 @@
             <hr class="my-4">
       <form action="{% url 'DoctorSignUp' %}" method="POST" class="mt-10 space-y-4">
         {% csrf_token %}
-        
         <div class="flex justify-center">
           <div class="w-3/4">
             <label for="user_name" class="block mb-2 text-sm font-medium text-gray-700"><b>User Name</b></label>

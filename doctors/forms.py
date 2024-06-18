@@ -29,42 +29,49 @@ class UserForm(UserCreationForm):
             'email': forms.EmailInput(attrs={'class': 'w-full text-sm px-4 py-3 rounded outline-none border-2 focus:border-blue-500'}),
             'password': forms.PasswordInput(attrs={'class': 'w-full text-sm px-4 py-3 rounded outline-none border-2 focus:border-blue-500'}),
             'password2': forms.PasswordInput(attrs={'class': 'w-full text-sm px-4 py-3 rounded outline-none border-2 focus:border-blue-500'}),
+            
         }
 
 
-class DoctorsProfileForm(forms.Form):
+# class DoctorsProfileForm(forms.Form):
     
+#     class Meta:
+#         model = Doctor
+#         fields = ['first_name', 'last_name','national_id_or_passport_image','phone_number','medical_licence','passport_or_id_number','date_issued','expiry_date','date_of_birth','specialization']
+
+
+from django import forms
+from .models import Doctor
+
+class DoctorProfileForm(forms.ModelForm):
     class Meta:
         model = Doctor
-        fields = ['first_name', 'last_name']
+        fields = ['first_name', 'last_name', 'email', 'specialization', 'phone_number', 'photo', 'medical_licence', 'passport_or_id_number', 'date_issued', 'expiry_date', 'date_of_birth']
+         
         widgets = {
             'first_name': forms.TextInput(attrs={'class': 'w-full text-sm px-4 py-3 rounded outline-none border-2 focus:border-blue-500'}),
             'last_name': forms.TextInput(attrs={'class': 'w-full text-sm px-4 py-3 rounded outline-none border-2 focus:border-blue-500'}),
+
+            'date_issued': forms.DateInput(attrs={'type': 'date'}),
+            'expiry_date': forms.DateInput(attrs={'type': 'date'}),
+            'date_of_birth': forms.DateInput(attrs={'type': 'date'}),
+            'national_id_or_passport_image': forms.ClearableFileInput(attrs={'class': 'form-control'}),
         }
-
-
-
 
 
 
 class UserLoginForm(forms.Form):
-    username = forms.CharField(max_length=254)
-    password= forms.CharField(widget=forms.PasswordInput)
-    user = None
-    
-    def clean(self):
-        cleaned_data = super().clean()
-        user_name = cleaned_data.get('username')
-        password1= cleaned_data.get('password1')
-        if user_name and password1:
-            user = authenticate(username=user_name, password=password)
-            self.user = user
+  username = forms.CharField(label="Username", max_length=150)
+  password = forms.CharField(label="Password", widget=forms.PasswordInput())
 
-            if user is None:
-                raise forms.ValidationError("invalid username")
-            return cleaned_data
-        else:
-            raise forms.ValidationError("invalid username or password")
-        
-    def get_user(self):
-        return self.user
+  def clean(self):
+    cleaned_data = super(UserLoginForm, self).clean()
+    username = cleaned_data.get('username')
+    password = cleaned_data.get('password')
+
+    if not username:
+      raise forms.ValidationError('Please enter your username.')
+    if not password:
+      raise forms.ValidationError('Please enter your password.')
+
+    return cleaned_data

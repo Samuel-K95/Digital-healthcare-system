@@ -1,53 +1,37 @@
+
+{% extends 'base.html' %}
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href= "{% static 'css/signup.css' %}">
-    <title>Doctor Log in</title>
-</head>
+{% block content %}
 
 <body>
-    <header>
-        <div class="left-side">
-            <img src="{% static 'images/electrocardiogram.png' %}" alt="pulse">
-            <p>Doctor Portal</p>
-        </div>
-    </header>
-    <div class="wrap">
-        
-        <div class="container">
-            <form method='POST' action="{% url 'DoctorLogin' %}">{% csrf_token %}
-                <p class="top-p">Log in</p>
-                <div class="form-group">
-                    <p>User name</p>
-                    {{ user_form.username }}
-                    {% for error in user_form.username.errors %}
-                        <div class="error" style="color: red;">{{ error }}</div>
-                    {% endfor %}
+    <div class="bg-gray-800 pt-12 font-[sans-serif] text-[#333]">
+        <div class="min-h-screen flex flex-col items-center justify-center -mt-18 -mb-2 py-6 px-4">
+          <div class="max-w-md w-full border py-4 -mt-4 px-6 rounded border-gray-300 bg-white">
+              <a href="javascript:void(0)"><img src="{% static 'images/logo.png' %}"alt="logo" class='w-40 mb-10' /></a>
+              <h2 class="text-center text-3xl font-extrabold">Log In</h2>
+              
+              <form class="mt-10 space-y-4" method="post" action="{% url 'DoctorLogin' %}">
+              {% csrf_token %}
+              <div class="flex justify-center">
+                  <input name="username" type="text" autocomplete="username" required class="w-3/4 text-sm px-4 py-3 rounded outline-none border-2 focus:border-blue-500" placeholder="Username" />
                 </div>
-
-                <div class="form-group">
-                    <p>Password</p>
-                    {{ user_form.password }}
-                    {% for error in user_form.password.errors %}
-                        <div class="error" style="color: red;">{{ error }}</div>
-                    {% endfor %}
+                <div class="flex justify-center">
+                <input name="password1" type="password" autocomplete="current-password" required class="w-3/4 text-sm px-4 py-3 rounded outline-none border-2 focus:border-blue-500" placeholder="Password" />
+            </div>
+            <div class="flex justify-center gap-4 w-3/4 mx-auto">
+                <div>
+                    <a href="{% url 'DoctorSignUp' %}" class="text-sm text-blue-600 hover:text-blue-500">Register Now</a>
                 </div>
-
-                {% if user_form.non_field_errors %}
-                    {% for error in user_form.non_field_errors %}
-                        <div class="error" style="color: red;">{{ error }}</div>
-                    {% endfor %}
-                {% endif %}
-
-                <div class="button-div">
-                    <button type="submit">Log in</button>
-                </div>
-            </form>
-        </div>
+                <!-- <div>
+                    <a href="javascript:void(0);" class="text-sm text-blue-600 hover:text-blue-500">Forgot Password?</a>
+                </div> -->
+            </div>
+            <div class="flex justify-center mt-10">
+                <button type="submit" class="w-3/4 py-2.5 px-4 text-sm rounded text-center text-white bg-red-600 hover:bg-blue-700 focus:outline-none">Log in</button>
+            </div>
+        </form>
     </div>
-</body>
-</html>
+</div>
+      </div>
+{% endblock %}
