@@ -3,9 +3,9 @@ from django.contrib.auth.models import User
 
 class Doctor(models.Model):
     user = models.OneToOneField(User, related_name='user', on_delete=models.CASCADE)
-    f_name = models.CharField(max_length=100)
-    l_name  = models.CharField(max_length=100)
-    email = models.EmailField(max_length=254)
+    first_name = models.CharField(max_length=100,blank=True, null=True)
+    last_name  = models.CharField(max_length=100 ,blank=True, null=True)
+    email = models.EmailField(max_length=254, blank=True, null=True)
 
     #verification status
     VERIFICATION_TYPE_CHOICES = (
@@ -21,7 +21,7 @@ class Doctor(models.Model):
 
     # verification details
     national_id_or_passport_image = models.ImageField(upload_to='doctors/verification', blank=True, null=True)
-    phone_number = models.IntegerField(blank=True, default=True)
+    phone_number = models.IntegerField(default=True, blank=True, null=True)
     photo = models.ImageField(upload_to='doctors/account',  null=True, blank=True)
     medical_licence = models.ImageField(upload_to='doctors/verification',  null=True, blank=True)
     passport_or_id_number = models.IntegerField(blank=True, null=True)
@@ -37,5 +37,5 @@ class Doctor(models.Model):
     rating_counter = models.IntegerField(default=0, null=True, blank=True)
 
     def __str__(self):
-        return f"{self.f_name} {self.l_name}"
+        return f"{self.user} {self.first_name} {self.last_name}"
 

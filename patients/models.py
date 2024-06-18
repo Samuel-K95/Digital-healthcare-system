@@ -30,7 +30,7 @@ class Patient(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.fname + self.lname
+        return self.fname + " " + self.lname
 
 class MedicalHisory(models.Model):
 

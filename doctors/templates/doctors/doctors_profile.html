@@ -3,10 +3,10 @@
 {% block content %}
     <div class="all">
         <div class="top-div">
-            <div id="profileImage"></div>
+         
 
             <div class="Name-user">
-                <p><span id="firstName">{{ Doctor.fname }}</span> <span id="lastName">{{ Doctor.lname }}</span></p>
+                <p><span id="firstName">{{ Doctor.f_name }}</span> <span id="lastName">{{ Doctor.l_name }}</span></p>
                 <p>@{{ Doctor.user.username }}</p>
             </div>
 
@@ -20,7 +20,7 @@
                 <div class="first-div">
                     <div class="first-inside">
                         <p>Full Name</p>
-                        <input type="text" value="{{ Doctor.fname }} {{ Doctor.lname }}" id="editable-input" readonly>
+                        <input type="text" value="{{ Doctor.f_name }} {{ Doctor.l_name }}" id="editable-input" readonly>
                     </div>
                 </div>
                 <div class="second-div">
