@@ -46,7 +46,7 @@ from .models import Doctor
 class DoctorProfileForm(forms.ModelForm):
     class Meta:
         model = Doctor
-        fields = ['first_name', 'last_name', 'email', 'specialization', 'phone_number', 'photo', 'medical_licence', 'passport_or_id_number', 'date_issued', 'expiry_date', 'date_of_birth']
+        fields = ['first_name', 'last_name', 'email', 'specialization', 'phone_number', 'photo', 'medical_licence', 'passport_or_id_number', 'date_issued', 'expiry_date', 'date_of_birth', 'national_id_or_passport_image', 'city','region','languages','years_of_experience']
          
         widgets = {
             'first_name': forms.TextInput(attrs={'class': 'w-full text-sm px-4 py-3 rounded outline-none border-2 focus:border-blue-500'}),
@@ -55,7 +55,6 @@ class DoctorProfileForm(forms.ModelForm):
             'date_issued': forms.DateInput(attrs={'type': 'date'}),
             'expiry_date': forms.DateInput(attrs={'type': 'date'}),
             'date_of_birth': forms.DateInput(attrs={'type': 'date'}),
-            'national_id_or_passport_image': forms.ClearableFileInput(attrs={'class': 'form-control'}),
         }
 
 

@@ -16,22 +16,24 @@
         <div class="flex flex-col items-center">
           <div class="flex flex-col items-center">
           
+            {% if doc.photo %}
             <div class="w-58 h-58 rounded-full mb-4" >
               <label for="id_profile_picture" class="profile-picture-label">
                 <img src="{{ doc.photo.url }}" class="w-48 h-48 rounded-full mb-4" alt="User Image">
-              <div class="ml-24 text-sm -mt-3 mb-4 flex text-center items-center">
-              <ion-icon class="gray-600" name="pencil"></ion-icon>
+                <div class="ml-24 text-sm -mt-3 mb-4 flex text-center items-center">
+                  <ion-icon class="gray-600" name="pencil"></ion-icon>
+                </div>
               </div>
+              {% endif %}
               
-              </div>
-              
-          </div>            
-        </div>
-
-        <div class="flex justify-center">
-          <div class="w-3/4">
-            <div class="space-y-4">
-           
+            </div>            
+          </div>
+          
+          <div class="flex justify-center">
+            <div class="w-3/4">
+              <div class="space-y-4">
+                
+                <h5 class="text-2xl text-center text-gray-700 mt-2">Personal Information</h5>
               <label for="first_name" class="block text-sm font-medium text-gray-700">First Name</label>
               <div class="w-full text-sm px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50">
                 {{ form.first_name }}
@@ -42,35 +44,31 @@
                 {{ form.last_name }}
               </div>
 
-              <label for="id_email" class="block text-sm font-medium text-gray-700">Email</label>
+              <label for="id_date_of_birth" class="block text-sm font-medium text-gray-700">Date of Birth</label>
               <div class="w-full text-sm px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50">
-                {{ form.email}}
+                {{ form.date_of_birth }}
               </div>
-
-              <label for="id_specialization" class="block text-sm font-medium text-gray-700">Specialization</label>
+              
+              <label for="id_languages" class="block text-sm font-medium text-gray-700">Spoken Languages</label>
               <div class="w-full text-sm px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50">
-                {{ form.specialization }}
+                {{ form.languages }}
               </div>
-
-              <label for="id_photo" class="block text-sm font-medium text-gray-700">Photo</label>
+              
+              <label for="id_photo" class="block text-sm font-medium text-gray-700">Profile Picture</label>
               <div class="w-full text-sm px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50">
                 {{ form.photo }}
               </div>
 
-              <label for="id_medical_licence" class="block text-sm font-medium text-gray-700">Medical Licence</label>
-              <div class="w-full text-sm px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50">
-                {{ form.medical_licence }}
-              </div>
-
-              <label for="id_passport_or_id_number" class="block text-sm font-medium text-gray-700">Passport or ID Number</label>
+              <label for="id_passport_or_id_number" class="block text-sm font-medium text-gray-700">Passport or National ID Number</label>
               <div class="w-full text-sm px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50">
                 {{ form.passport_or_id_number }}
               </div>
 
-              <label for="id_phone_number" class="block text-sm font-medium text-gray-700">Phone Number</label>
+              <label for="id_national_id_or_passport_image" class="block text-sm font-medium text-gray-700">Passport or National ID Image</label>
               <div class="w-full text-sm px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50">
-                {{ form.phone_number }}
+                {{ form.national_id_or_passport_image }}
               </div>
+                           
 
               <label for="id_date_issued" class="block text-sm font-medium text-gray-700">Date Issued</label>
               <div class="w-full text-sm px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50">
@@ -82,10 +80,51 @@
                 {{ form.expiry_date }}
               </div>
 
-              <label for="id_date_of_birth" class="block text-sm font-medium text-gray-700">Date of Birth</label>
+             
+              <h5 class="text-2xl text-center text-gray-700 mt-2">Career Information</h5>
+            
+              <label for="id_specialization" class="block text-sm font-medium text-gray-700">Specialization</label>
               <div class="w-full text-sm px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50">
-                {{ form.date_of_birth }}
+                {{ form.specialization }}
               </div>
+
+              <label for="id_medical_licence" class="block text-sm font-medium text-gray-700">Medical Licence</label>
+              <div class="w-full text-sm px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                {{ form.medical_licence }}
+              </div>
+              
+              <label for="id_years_of_experience" class="block text-sm font-medium text-gray-700">Years of Experience</label>
+              <div class="w-full text-sm px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                {{ form.years_of_experience }}
+              </div>
+              
+    
+              
+              <h5 class="text-2xl text-center text-gray-700 mt-2">Address and Contact Information</h5>
+              
+              <label for="id_region" class="block text-sm font-medium text-gray-700">Region</label>
+              <div class="w-full text-sm px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                {{ form.region }}
+              </div>
+
+              <label for="id_city" class="block text-sm font-medium text-gray-700">City</label>
+              <div class="w-full text-sm px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                {{ form.city }}
+              </div>
+
+              <label for="id_phone_number" class="block text-sm font-medium text-gray-700">Phone Number</label>
+              <div class="w-full text-sm px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                {{ form.phone_number }}
+              </div>
+
+              <label for="id_email" class="block text-sm font-medium text-gray-700">Active Email</label>
+              <div class="w-full text-sm px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                {{ form.email}}
+              </div>
+
+
+
+
             </div>
           </div>
         </div>
