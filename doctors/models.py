@@ -70,5 +70,5 @@ class Doctor(models.Model):
 
    
     def __str__(self):
-        return f"Username: {self.user} || Full Name: {self.first_name} {self.last_name}"
+        return f"{self.first_name} {self.last_name}"
 

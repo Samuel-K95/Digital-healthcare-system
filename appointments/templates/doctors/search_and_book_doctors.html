@@ -112,7 +112,7 @@
             <strong>Years of Experience:</strong> {{ doctor.years_of_experience }}<br>
             <strong>Languages:</strong> {{ doctor.languages }}
           </p>
-          <a href="{% url 'schedule_appointment' doctor.id %}" class="block w-full text-center p-2 bg-red-600 text-white rounded hover:bg-red-900">Book Appointment</a>
+          <a href="{% url 'DoctorDetail' doctor.id %}" class="block w-full text-center p-2 bg-red-600 text-white rounded hover:bg-red-900">Book Appointment</a>
         </div>
       </li>
       {% endfor %}
