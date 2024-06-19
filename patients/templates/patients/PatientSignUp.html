@@ -1,78 +1,102 @@
+{% extends 'base.html' %}
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href= "{% static 'css/signup.css' %}">
-    <title>Patient Sign up</title>
-</head>
+{% block content %}
+<div class="bg-gray-800 pt-28 font-[sans-serif] text-[#333]">
+  <div class="min-h-screen flex flex-col items-center justify-center py-6 px-4">
+    
+    {% if messages %}
+  {% for message in messages %}
+    {% if message.tags == 'success' %}
+      <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 text-center rounded mb-4 max-w-md mx-auto" role="alert">
+        <span class="block sm:inline">{{ message }}</span>
+      </div>
+    {% elif message.tags == 'error' %}
+      <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 text-center rounded mb-4 max-w-md mx-auto" role="alert">
+        <span class="block sm:inline">{{ message }}</span>
+      </div>
+    {% endif %}
+  {% endfor %}
+{% endif %}
+    <div class="max-w-md w-full border py-8 px-6 rounded border-gray-300 bg-white">
+      <a href="javascript:void(0)"><img src="{% static 'images/logo.png' %}" alt="logo" class='w-40 mb-10' /></a>
+      <h2 class="text-center text-3xl font-extrabold">Register</h2>
+      <p class="text-center">Please fill in this form to create an account.</p>
+            <hr class="my-4">
+      <form action="{% url 'PatientSignUp' %}" method="POST" class="mt-10 space-y-4">
+        {% csrf_token %}
+        <div class="flex justify-center">
+          <div class="w-3/4">
+            <label for="user_name" class="block mb-2 text-sm font-medium text-gray-700"><b>User Name</b></label>
+            <div class="border-2 focus:border-blue-500">
 
-<body>
-    <header>
-        <div class="left-side">
-            <img src="{% static 'images/electrocardiogram.png' %}" alt="pulse">
-            <p>Patient Portal</p>
+              {{ user_form.username }}
+            </div>
+          </div>
         </div>
-    </header>
-    <div class="wrap">
-        <div class="container">
-            <form method='POST' action="{% url 'PatientSignUp' %}">{% csrf_token %}
-                <p class="top-p">Sign up</p>
-                <div class="form-group">
-                    <p>User name</p>
-                    {{ user_form.username }}
-                    {% for error in user_form.username.errors %}
-                        <div class="error">{{ error }}</div>
-                    {% endfor %}
-                </div>
 
-                <div class="form-group">
-                    <p>First name</p>
-                    {{ patient_form.fname }}
-                    {% for error in patient_form.fname.errors %}
-                        <div class="error">{{ error }}</div>
-                    {% endfor %}
-                </div>
+        <div class="flex justify-center">
+          <div class="w-3/4">
+            <label for="fname" class="block mb-2 text-sm font-medium text-gray-700"><b>First Name</b></label>
+            <div class="border-2 focus:border-blue-500">
 
-                <div class="form-group">
-                    <p>Last name</p>
-                    {{ patient_form.lname }}
-                    {% for error in patient_form.lname.errors %}
-                        <div class="error">{{ error }}</div>
-                    {% endfor %}
-                </div>
-
-                <div class="form-group">
-                    <p>Email</p>
-                    {{ user_form.email }}
-                    {% for error in user_form.email.errors %}
-                        <div class="error">{{ error }}</div>
-                    {% endfor %}
-                </div>
-
-                <div class="form-group">
-                    <p>Password</p>
-                    {{ user_form.password1 }}
-                    {% for error in user_form.password1.errors %}
-                        <div class="error">{{ error }}</div>
-                    {% endfor %}
-                </div>
-
-                <div class="form-group">
-                    <p>Confirm Password</p>
-                    {{ user_form.password2 }}
-                    {% for error in user_form.password2.errors %}
-                        <div class="error">{{ error }}</div>
-                    {% endfor %}
-                </div>
-                <div class="button-div">
-                    <button type="submit">Sign up</button>
-                    <p>Already have an account? <a href="{% url 'PatientLogin' %}">Log in</a></p>
-                </div>
-            </form>
+              {{ patient_form.fname }}
+            </div>
+          </div>
         </div>
+        <div class="flex justify-center">
+          <div class="w-3/4">
+            <label for="lname" class="block mb-2 text-sm font-medium text-gray-700"><b>Last Name</b></label>
+            <div class="border-2 focus:border-blue-500">
+
+              {{ patient_form.lname }}
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class="flex justify-center">
+          <div class="w-3/4">
+            <label for="email" class="block mb-2 text-sm font-medium text-gray-700"><b>Email</b></label>
+            <div class="border-2 focus:border-blue-500">
+
+              {{ user_form.email }}
+            </div>
+          </div>
+        </div>
+       
+        <div class="flex justify-center">
+          <div class="w-3/4">
+            <label for="password1"  class="block mb-2 text-sm font-medium text-gray-700"><b>Password</b></label>
+            <div class="border-2 focus:border-blue-500">
+              {{ user_form.password1 }}
+            </div>
+          </div>
+        </div>
+      
+        <div class="flex justify-center">
+          <div class="w-3/4">
+            <label for="password2 " class="block mb-2 text-sm font-medium text-gray-700"><b>Repeat Password</b></label>
+            <div class="border-2 focus:border-blue-500">
+              {{ user_form.password2  }}
+            </div>
+          </div>
+        </div>
+        <div class="flex justify-center">
+          <div class="w-3/4 text-sm text-gray-600">
+            <p>By creating an account you agree to our <a href="#" class="text-blue-600 hover:text-blue-500">Terms & Privacy</a>.</p>
+          </div>
+        </div>
+        <div class="flex justify-center mt-4">
+          <button type="submit" class="w-3/4 py-2.5 px-4 text-sm rounded text-center text-white bg-red-600 hover:bg-blue-700 focus:outline-none">Register</button>
+        </div>
+      </form>
+      <hr class="my-4">
+      <div class="flex justify-center">
+        <p class="text-sm text-gray-600">Already have an account? <a href="{% url 'PatientLogin' %}" class="text-blue-600 hover:text-blue-500">Sign in</a>.</p>
+      </div>
     </div>
-</body>
-</html>
+  </div>
+</div>
+{% endblock %}

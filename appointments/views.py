@@ -8,8 +8,11 @@ from .forms import AppointmentForm, RescheduleAppointmentForm
 from django.contrib import messages
 
 
-@login_required
+
 def ScheduleAppointment(request, doctor_id):
+    if not request.user.is_authenticated:
+        messages.error(request, "You need to login before scheduling an appointment!")
+        return redirect('PatientLogin')
     doctor = get_object_or_404(Doctor, id=doctor_id)
     patient = get_object_or_404(Patient, user=request.user)
     if request.method == 'POST':
