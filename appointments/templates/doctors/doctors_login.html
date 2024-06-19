@@ -1,0 +1,36 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="bg-gray-800 pt-12 font-[sans-serif] text-[#333]">
+        <div class="min-h-screen flex flex-col items-center justify-center -mt-18 -mb-2 py-6 px-4">
+          <div class="max-w-md w-full border py-4 -mt-4 px-6 rounded border-gray-300 bg-white">
+              <a href="javascript:void(0)"><img src="{% static 'images/logo.png' %}"alt="logo" class='w-40 mb-10' /></a>
+              <h2 class="text-center text-3xl font-extrabold">Log In</h2>
+              
+              <form class="mt-10 space-y-4" method="post" action="{% url 'DoctorLogin' %}">
+              {% csrf_token %}
+              <div class="flex justify-center">
+                  <input name="username" type="text" autocomplete="username" required class="w-3/4 text-sm px-4 py-3 rounded outline-none border-2 focus:border-blue-500" placeholder="Username" />
+                </div>
+                <div class="flex justify-center">
+                <input name="password1" type="password" autocomplete="current-password" required class="w-3/4 text-sm px-4 py-3 rounded outline-none border-2 focus:border-blue-500" placeholder="Password" />
+            </div>
+            <div class="flex justify-center gap-4 w-3/4 mx-auto">
+                <div>
+                    <a href="{% url 'DoctorSignUp' %}" class="text-sm text-blue-600 hover:text-blue-500">Register Now</a>
+                </div>
+                <!-- <div>
+                    <a href="javascript:void(0);" class="text-sm text-blue-600 hover:text-blue-500">Forgot Password?</a>
+                </div> -->
+            </div>
+            <div class="flex justify-center mt-10">
+                <button type="submit" class="w-3/4 py-2.5 px-4 text-sm rounded text-center text-white bg-red-600 hover:bg-blue-700 focus:outline-none">Log in</button>
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+{% endblock %}

@@ -23,7 +23,7 @@
         <ion-icon name="person-circle"></ion-icon>
         <span class="ml-3">My profile</span>
       </a>
-      <a href="{% url 'view_patient_appointments' %}" class="flex items-center p-2 text-sm font-medium rounded-lg hover:bg-gray-200 transition">
+      <a href="{% url 'DoctorProfile' %}" class="flex items-center p-2 text-sm font-medium rounded-lg hover:bg-gray-200 transition">
         <ion-icon name="pencil"></ion-icon>
         <span class="ml-3">Appointments</span>
       </a>
@@ -33,6 +33,10 @@
         <span class="ml-3">Chats</span>
       </a>
       
+      <a href="{% url 'BrowseDoctors' %}" class="flex items-center p-2 text-sm font-medium rounded-lg hover:bg-gray-200 transition">
+        <ion-icon name="book"></ion-icon>
+        <span class="ml-3">Search Doctors</span>
+      </a>
       <a href="{% url 'DoctorProfile' %}" class="flex items-center p-2 text-sm font-medium rounded-lg hover:bg-gray-200 transition">
         <ion-icon name="book"></ion-icon>
         <span class="ml-3">Posts</span>

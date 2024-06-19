@@ -58,10 +58,8 @@ def registerDoctor(request):
             user=authenticate(username=username, password=password)
 
             messages.success(request,"Doctor Registred Successfully!")
-            login(request,user)
-            
-            # doc_form = DoctorsProfileForm()
-            redirect('DoctorProfile')
+            login(request,user)            
+            return redirect('DoctorProfile')
 
 
         else:
@@ -128,9 +126,6 @@ def BrowseDoctors(request):
     if region:
         doctors = doctors.filter(region__iexact=region)
 
-    # Filter by country
-    if country:
-        doctors = doctors.filter(country__iexact=country)
 
     # Filter by years of experience
     if years_of_experience:
@@ -163,7 +158,6 @@ def BrowseDoctors(request):
     doctors = doctors.order_by('-rating')
 
     unique_years_of_experience = Doctor.objects.values_list('years_of_experience', flat=True).distinct()
-    unique_regions = Doctor.objects.values_list('region', flat=True).distinct()
     unique_cities= Doctor.objects.values_list('city', flat=True).distinct()
 
     context = {
@@ -171,13 +165,11 @@ def BrowseDoctors(request):
         'query': query,
         'city': city,
         'region': region,
-        'country': country,
         'years_of_experience': years_of_experience,
         'languages': languages,
         'doctor_type': doctor_type,
         'rating': rating,
         'unique_years_of_experience':unique_years_of_experience,
-        'unique_regions':unique_regions,
         'unique_cities':unique_cities,
     }
 
