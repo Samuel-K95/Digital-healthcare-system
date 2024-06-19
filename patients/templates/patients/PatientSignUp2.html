@@ -1,0 +1,78 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href= "{% static 'css/signup.css' %}">
+    <title>Patient Sign up</title>
+</head>
+
+<body>
+    <header>
+        <div class="left-side">
+            <img src="{% static 'images/electrocardiogram.png' %}" alt="pulse">
+            <p>Patient Portal</p>
+        </div>
+    </header>
+    <div class="wrap">
+        <div class="container">
+            <form method='POST' action="{% url 'PatientSignUp' %}">{% csrf_token %}
+                <p class="top-p">Sign up</p>
+                <div class="form-group">
+                    <p>User name</p>
+                    {{ user_form.username }}
+                    {% for error in user_form.username.errors %}
+                        <div class="error">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    <p>First name</p>
+                    {{ patient_form.fname }}
+                    {% for error in patient_form.fname.errors %}
+                        <div class="error">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    <p>Last name</p>
+                    {{ patient_form.lname }}
+                    {% for error in patient_form.lname.errors %}
+                        <div class="error">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    <p>Email</p>
+                    {{ user_form.email }}
+                    {% for error in user_form.email.errors %}
+                        <div class="error">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    <p>Password</p>
+                    {{ user_form.password1 }}
+                    {% for error in user_form.password1.errors %}
+                        <div class="error">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    <p>Confirm Password</p>
+                    {{ user_form.password2 }}
+                    {% for error in user_form.password2.errors %}
+                        <div class="error">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                <div class="button-div">
+                    <button type="submit">Sign up</button>
+                    <p>Already have an account? <a href="{% url 'PatientLogin' %}">Log in</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

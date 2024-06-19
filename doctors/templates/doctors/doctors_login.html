@@ -6,9 +6,9 @@
 
 <div class="bg-gray-800 pt-12 font-[sans-serif] text-[#333]">
         <div class="min-h-screen flex flex-col items-center justify-center -mt-18 -mb-2 py-6 px-4">
-          <div class="max-w-md w-full border py-4 -mt-4 px-6 rounded border-gray-300 bg-white">
+          <div class="max-w-md w-full border py-4 pb-20 -mt-4 px-6 rounded border-gray-300 bg-white">
               <a href="javascript:void(0)"><img src="{% static 'images/logo.png' %}"alt="logo" class='w-40 mb-10' /></a>
-              <h2 class="text-center text-3xl font-extrabold">Log In</h2>
+              <h2 class="text-center text-3xl font-extrabold">Doctor Log In</h2>
               
               <form class="mt-10 space-y-4" method="post" action="{% url 'DoctorLogin' %}">
               {% csrf_token %}
