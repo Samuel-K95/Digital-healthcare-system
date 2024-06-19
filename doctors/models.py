@@ -30,24 +30,8 @@ class Doctor(models.Model):
     # specialization
     specialization = models.CharField(max_length=1000, blank=True, null=True, default="")
 
-    CITY_CHOICES = (
-        ("Addis Ababa", "Addis Ababa"),
-        ("Dire Dawa", "Dire Dawa"),
-        ("Mekelle", "Mekelle"),
-        ("Adama", "Adama"),
-        ("Awassa", "Awassa"),
-        ("Gonder", "Gonder"),
-        ("Dessie", "Dessie"),
-        ("Bahir Dar", "Bahir Dar"),
-        ("Jimma", "Jimma"),
-        ("Jijiga", "Jijiga"),
-        ("Harar", "Harar"),
-        ("Aksum", "Aksum"),
-        ("Gambela", "Gambela"),
-        ("Debre Markos", "Debre Markos"),
-        ("Lalibela", "Lalibela"),
-    )
-    city = models.CharField(max_length=100, choices=CITY_CHOICES, blank=True, null=True)
+
+    city = models.CharField(max_length=100,  blank=True, null=True)
 
     REGION_CHOICES = (
         ("Afar", "Afar"),
@@ -78,7 +62,7 @@ class Doctor(models.Model):
 
     # Languages
     languages = models.CharField(max_length=200, blank=True, null=True)
-    doctor_type = models.CharField(max_length=100, blank=True, null=True)
+    
 
     # ratings
     rating = models.FloatField(default=0.0, null=True, blank=True)
@@ -86,5 +70,5 @@ class Doctor(models.Model):
 
    
     def __str__(self):
-        return f"{self.user} {self.first_name} {self.last_name}"
+        return f"Username: {self.user} || Full Name: {self.first_name} {self.last_name}"
 

@@ -153,11 +153,18 @@ def BrowseDoctors(request):
         doctors = doctors.filter(
             Q(first_name__icontains=query) |
             Q(last_name__icontains=query) |
-            Q(specialization__icontains=query)
+            Q(specialization__icontains=query)|
+            Q(city__icontains=query)|
+            Q(region__icontains=query)|
+            Q(languages__icontains=query)
         )
 
     # Order by rating (descending)
     doctors = doctors.order_by('-rating')
+
+    unique_years_of_experience = Doctor.objects.values_list('years_of_experience', flat=True).distinct()
+    unique_regions = Doctor.objects.values_list('region', flat=True).distinct()
+    unique_cities= Doctor.objects.values_list('city', flat=True).distinct()
 
     context = {
         'doctors': doctors,
@@ -169,6 +176,9 @@ def BrowseDoctors(request):
         'languages': languages,
         'doctor_type': doctor_type,
         'rating': rating,
+        'unique_years_of_experience':unique_years_of_experience,
+        'unique_regions':unique_regions,
+        'unique_cities':unique_cities,
     }
 
     return render(request, template, context)
