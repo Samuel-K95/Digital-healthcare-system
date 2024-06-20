@@ -9,7 +9,7 @@ from django.conf import settings
 urlpatterns = [
     path('', views.home, name='home'),
     path('admin/', admin.site.urls),
-    path('PatientHome/', include('patients.urls')),
-    path('DoctorHome/', include('doctors.urls')),
+    path('Patients/', include('patients.urls')),
+    path('Doctors/', include('doctors.urls')),
     path('Appointments/', include('appointments.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

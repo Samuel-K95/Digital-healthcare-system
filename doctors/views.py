@@ -3,8 +3,8 @@ from django.http import HttpResponse
 from django import forms
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse, JsonResponse
-from .models import Doctor
-from .forms import DoctorProfileForm, UserLoginForm, UserForm
+from .models import Doctor, Post
+from .forms import DoctorProfileForm, UserLoginForm, UserForm, ThumbsUpForm
 from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -193,3 +193,32 @@ def DoctorLogout(request):
     next_page = request.GET.get('next', 'DoctorLogin')
     return redirect(reverse(next_page))
     
+
+
+
+# POSTS SECTION 
+def PostList(request):
+    posts = Post.objects.all().order_by('-published_date')
+    context = {'posts': posts}
+    return render(request, 'posts/post_list.html', context)
+
+
+def PostDetail(request, post_id):
+    post = get_object_or_404(Post, pk=post_id)
+    liked = post.has_liked(request.user)  # Check if user already liked
+
+    if request.method == 'POST':
+        form = ThumbsUpForm(request.POST)  # Handle form submission (if applicable)
+        if form.is_valid():
+            if not liked:
+                # Add user to liked_by and increment thumbs_up
+                post.liked_by.add(request.user)
+                post.thumbs_up += 1
+                post.save()
+                messages.success(request, "Liked Successfully!")
+                liked = True  # Update liked flag after thumbs up
+            else:
+                messages.error(request, "You already liked this post!")
+
+    context = {'post': post, 'liked': liked}
+    return render(request, 'posts/post_detail.html', context)

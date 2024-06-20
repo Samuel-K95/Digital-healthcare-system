@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="bg-gray-800">
+  <div class="pt-24 pb-24 container mx-auto p-4">
+    <div class="bg-white shadow pb-48 rounded-lg p-6">
+
+          <div class="container w-lg mx-auto px-4 py-8 md:px-8 lg:px-20">
+            <h1 class="text-3xl font-bold mb-4">{{ post.title }}</h1>
+            <div class="flex items-center mb-4">
+              <p class="text-gray-600 mr-2">Published: {{ post.published_date| date:"N d, Y"  }}</p>
+            
+            </div>
+            <div class="post-content w-full prose mb-8">
+              <div class="w-1/4">
+                <img src="{{post.image_main.url}}" width="300px" alt="Post Image">
+              </div>
+              
+              <div class="w-3/4">
+                {{ post.content }}
+              </div>
+            </div>
+
+            {% if request.user.is_authenticated %}
+              <form method="POST" class="flex items-center mb-4">
+                {% csrf_token %}
+                {{ form }}
+                <button type="submit" class="btn btn-primary ml-2">
+                  Thumbs Up
+                  
+                </button>
+              </form>
+            {% else %}
+              <p class="text-gray-600">You need to be logged in to like a post.</p>
+            {% endif %}
+
+            {% if messages %}
+              <ul class="list-disc space-y-2 text-gray-600">
+                {% for message in messages %}
+                  <li class="{{ message.tags }}">{{ message }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
+          </div>
+          </div>
+          </div>
+{% endblock %}
