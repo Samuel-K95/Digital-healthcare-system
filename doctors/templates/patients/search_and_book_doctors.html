@@ -1,0 +1,126 @@
+{% extends 'patients/dashboard.html' %}
+{% load static %}
+{% block dashboard_content %}
+
+
+
+<div class="bg-gray-800">
+
+  <div class="pt-24 container mx-auto p-4">
+    <div class="bg-white shadow rounded-lg p-6">
+      <h2 class="text-2xl font-semibold text-center mb-4">Find Doctors</h2>
+      <form action="{% url 'BrowseDoctors' %}" method="get">
+        
+        <div class="flex flex-col md:flex-row items-center justify-center gap-1 mb-4">
+          
+          <div class="w-full md:w-2/4">
+            <input type="text" name="query" value="{{ query }}" class="w-full p-2 border border-gray-300 rounded" placeholder="Doctor name, specialization">
+          </div>
+          
+          <div class="w-full md:w-1/4">
+            <button class="w-full p-2 bg-red-600 text-white text-center rounded hover:bg-red-700">Search</button>
+          </div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          
+          <div>
+            <label for="city" class="block mb-2">City</label>
+            <select id="city" name="city" class="w-full p-2 border border-gray-300 rounded">
+              <option value='' selected>...</option>
+              {% for c in unique_cities %}
+                <option value="{{ c }}" {% if city|stringformat:"s" == c|stringformat:"s" %}selected{% endif %}>{{ c }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+
+          <div>
+            <label for="region" class="block mb-2">Region</label>
+            <select id="region" name="region" class="w-full p-2 border border-gray-300 rounded">
+              <option value='' selected>Choose...</option>
+              <option value="Afar" {% if region == "Afar" %}selected{% endif %}>Afar</option>
+              <option value="Amhara" {% if region == "Amhara" %}selected{% endif %}>Amhara</option>
+              <option value="Benishangul-Gumuz" {% if region == "Benishangul-Gumuz" %}selected{% endif %}>Benishangul-Gumuz</option>
+              <option value="Gambela" {% if region == "Gambela" %}selected{% endif %}>Gambela</option>
+              <option value="Harari" {% if region == "Harari" %}selected{% endif %}>Harari</option>
+              <option value="Oromia" {% if region == "Oromia" %}selected{% endif %}>Oromia</option>
+              <option value="Somali" {% if region == "Somali" %}selected{% endif %}>Somali</option>
+              <option value="Southern Nations, Nationalities, and Peoples" {% if region == "Southern Nations, Nationalities, and Peoples" %}selected{% endif %}>Southern Nations, Nationalities, and Peoples'</option>
+              <option value="Tigray" {% if region == "Tigray" %}selected{% endif %}>Tigray</option>
+              <option value="Sidama" {% if region == "Sidama" %}selected{% endif %}>Sidama</option>
+              <option value="Nuer" {% if region == "Nuer" %}selected{% endif %}>Nuer</option>
+              <option value="Wolayita" {% if region == "Wolayita" %}selected{% endif %}>Wolayita</option>
+            </select>
+          </div>
+          
+          
+        <div>
+          <label for="years_of_experience" class="block mb-2">Years of Experience</label>
+          <select id="years_of_experience" name="years_of_experience" class="w-full p-2 border border-gray-300 rounded">
+            <option value='' selected>Choose...</option>
+            {% for yoe in unique_years_of_experience %}
+              <option value="{{ yoe}}" {% if years_of_experience|stringformat:"s" == yoe|stringformat:"s" %}selected{% endif %}>{{ yoe }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div>
+          <label for="languages" class="block mb-2">Languages</label>
+          <input type="text" name="languages" id="languages" value="{{ languages }}" class="w-full p-2 border border-gray-300 rounded" placeholder="Enter languages (comma-separated)">
+        </div>
+       
+        <div>
+          <label for="specialization" class="block mb-2">Specialization</label>
+          <input type="text" name="specialization" id="specialization" value="{{ specialization }}" class="w-full p-2 border border-gray-300 rounded" placeholder="Enter doctor type (e.g., general practitioner, cardiologist)">
+        </div>
+        <div>
+          <label for="rating" class="block mb-2">Rating</label>
+          <select id="rating" name="rating" class="w-full p-2 border border-gray-300 rounded">
+            <option value='' selected>Choose...</option>
+            {% for i in "012345" %}
+            <option value="{{ i }}" {% if rating|stringformat:"s" == i|stringformat:"s" %}selected{% endif %}>{{ i }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        
+        <div  class="mt-6 ">
+          <button class="w-full p-2 bg-red-700 text-center text-white rounded hover:bg-orange-900 mt-4 md:mt-0">Apply Filters</button>
+        </div>
+        <div class="mt-6 ">
+          <a href="{% url 'BrowseDoctors' %}" class="block w-full p-2 bg-gray-600 text-white text-center rounded hover:bg-gray-700 mt-4 md:mt-0">Clear Filters</a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<section class="browse" id="browse">
+  <div class="container mx-auto p-4">
+    <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {% for doctor in doctors %}
+      <li class="bg-white shadow rounded-lg overflow-hidden">
+        <img src="{{ doctor.photo.url }}" alt="{{ doctor.first_name }} {{ doctor.last_name }}" class="w-full h-48 object-cover object-right">
+        <div class="p-4">
+          <h3 class="text-xl font-semibold mb-2">
+            <a href="{% url 'DoctorDetail' doctor.id %}" class="text-gray-800 hover:underline">{{ doctor.first_name }} {{ doctor.last_name }}</a>
+          </h3>
+          <p class="text-gray-600 mb-2">
+            <strong>Specialization:</strong> {{ doctor.specialization }}<br>
+            <strong>Rating:</strong> {{ doctor.rating }}<br>
+            <strong>Location:</strong> {{ doctor.city }}, {{ doctor.region }}<br>
+            <strong>Years of Experience:</strong> {{ doctor.years_of_experience }}<br>
+            <strong>Languages:</strong> {{ doctor.languages }}
+          </p>
+          <a href="{% url 'schedule_appointment' doctor.id %}" class="block w-full text-center p-2 bg-red-600 text-white rounded hover:bg-red-900">Book Appointment</a>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+</div> 
+
+
+
+{% endblock %}

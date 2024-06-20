@@ -16,8 +16,7 @@ def post_save_create_profile_receiver(sender,instance,created,**kwargs):
             profile = Doctor.objects.get(user=instance)
             profile.save()
         except:
-            Doctor.objects.create(user = instance)
-            print("Doctor account didn't exist, but one was created now!")
+            print("Doctor account doesn't!")
         print('User is updated!')
 
 

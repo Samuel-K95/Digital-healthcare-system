@@ -102,7 +102,10 @@ from django.db.models import Q
 def BrowseDoctors(request):
 
     if(request.user.is_authenticated):
-        template = 'doctors/search_and_book_doctors.html'
+        if(Doctor.objects.filter(user=request.user).exists()):
+            template = 'doctors/search_and_book_doctors.html'
+        else:    
+            template = 'patients/search_and_book_doctors.html'
     else:
         template = 'doctors/browse_doctors.html'
 
