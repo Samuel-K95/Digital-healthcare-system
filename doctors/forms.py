@@ -74,3 +74,8 @@ class UserLoginForm(forms.Form):
       raise forms.ValidationError('Please enter your password.')
 
     return cleaned_data
+  
+
+  #POSTS SECTION
+class ThumbsUpForm(forms.Form):
+    pass

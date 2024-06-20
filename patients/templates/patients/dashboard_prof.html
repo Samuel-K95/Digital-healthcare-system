@@ -34,6 +34,10 @@
         <img src="{% static 'images/comments.png' %}" >
         <span class="ml-3">Messages</span>
       </a>
+      <a href="{% url 'post_list' %}" class="flex items-center p-2 text-sm font-medium rounded-lg hover:bg-gray-200 transition">
+        <img src="{% static 'images/medical-team.png' %}" >
+        <span class="ml-3">Read Posts</span>
+      </a>
       
       <a href="{% url 'PatientLogout' %}" class="flex items-center p-2 text-sm font-medium rounded-lg hover:bg-gray-200 transition">
         <img src="{% static 'images/logout.png' %}" alt="logout">
