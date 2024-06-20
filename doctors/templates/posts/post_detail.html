@@ -1,49 +1,69 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-
 <div class="bg-gray-800">
-  <div class="pt-24 pb-24 container mx-auto p-4">
-    <div class="bg-white shadow pb-48 rounded-lg p-6">
+  <div class="container mx-auto py-12">
+    <div class="bg-white shadow rounded-lg p-8">
+      <div class="flex flex-col md:flex-row items-start">
+        <div class="md:w-3/4 mr-4">
+          <a href="{{ request.META.HTTP_REFERER }}" class="text-gray-500 hover:text-blue-700 mb-4 inline-block">
+            <i class="fas fa-arrow-left mr-2"></i> Back to Posts
+          </a>
+          <h1 class="text-3xl font-bold mb-4">{{ post.title }}</h1>
+          <div class="flex items-center mb-4">
+            <p class="text-gray-600 mr-2">Published: {{ post.published_date| date:"N d, Y" }}</p>
+          </div>
+          <div class="post-content w-full prose mb-8">
+            <!-- Main post content -->
+            {{ post.content }}
+          </div>
+        </div>
+        <div class="md:w-1/4 mt-8 md:mt-0">
+          <!-- Main post image -->
+          <img src="{{ post.image_main.url }}" class="w-full mb-4 rounded-lg" alt="Post Image">
+        </div>
+      </div>
 
-          <div class="container w-lg mx-auto px-4 py-8 md:px-8 lg:px-20">
-            <h1 class="text-3xl font-bold mb-4">{{ post.title }}</h1>
-            <div class="flex items-center mb-4">
-              <p class="text-gray-600 mr-2">Published: {{ post.published_date| date:"N d, Y"  }}</p>
-            
-            </div>
-            <div class="post-content w-full prose mb-8">
-              <div class="w-1/4">
-                <img src="{{post.image_main.url}}" width="300px" alt="Post Image">
-              </div>
-              
-              <div class="w-3/4">
-                {{ post.content }}
-              </div>
-            </div>
+      <!-- Additional images -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        {% if post.image1 %}
+        <div>
+          <img src="{{ post.image1.url }}" class="w-full rounded-lg" alt="Image 1">
+        </div>
+        {% endif %}
+        {% if post.image2 %}
+        <div>
+          <img src="{{ post.image2.url }}" class="w-full rounded-lg" alt="Image 2">
+        </div>
+        {% endif %}
+        {% if post.image3 %}
+        <div>
+          <img src="{{ post.image3.url }}" class="w-full rounded-lg" alt="Image 3">
+        </div>
+        {% endif %}
+      </div>
 
-            {% if request.user.is_authenticated %}
-              <form method="POST" class="flex items-center mb-4">
-                {% csrf_token %}
-                {{ form }}
-                <button type="submit" class="btn btn-primary ml-2">
-                  Thumbs Up
-                  
-                </button>
-              </form>
-            {% else %}
-              <p class="text-gray-600">You need to be logged in to like a post.</p>
-            {% endif %}
+      {% if request.user.is_authenticated %}
+      <form method="POST" class="flex items-center mt-8">
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit" class="btn btn-primary ml-2">
+          <img src="{% static 'images/thumbs-up.png' %}" width="40px" alt="posts">
+        </button>
+      </form>
+      {% else %}
+      <p class="text-gray-600 mt-8">You need to be logged in to like a post.</p>
+      {% endif %}
 
-            {% if messages %}
-              <ul class="list-disc space-y-2 text-gray-600">
-                {% for message in messages %}
-                  <li class="{{ message.tags }}">{{ message }}</li>
-                {% endfor %}
-              </ul>
-            {% endif %}
-          </div>
-          </div>
-          </div>
-          </div>
+      {% if messages %}
+      <ul class="list-disc space-y-2 text-gray-600 mt-4">
+        {% for message in messages %}
+        <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </div>
+  </div>
+</div>
 {% endblock %}

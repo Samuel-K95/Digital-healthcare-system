@@ -7,7 +7,9 @@
   <div class="min-h-screen flex flex-col items-center justify-center py-6 px-4">
     <div class="max-w-3xl w-full border py-8 px-6 rounded border-gray-300 bg-white">
       <a href="javascript:void(0)"><img src="{% static 'images/logo.png' %}" alt="logo" class='w-40 mb-10' /></a>
+      {% if doc.first_name %}
       <h1 class="text-center text-3xl font-extrabold text-gray-800">Welcome Dr. {{ doc.first_name }}</h1>
+      {% endif %}
       <h2 class="text-2xl text-center text-gray-700 mt-2">Edit Your Profile</h2>
 
       <hr class="my-4">
