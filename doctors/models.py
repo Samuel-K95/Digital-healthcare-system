@@ -72,3 +72,23 @@ class Doctor(models.Model):
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
 
+
+
+class Post(models.Model):
+    author = models.ForeignKey(Doctor, on_delete=models.CASCADE)
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    image_main = models.ImageField(upload_to='images/posts', null=True, blank=True, default='images/posts/default.jpg')
+    image1 = models.ImageField(upload_to='images/posts', null=True, blank=True, default='images/posts/default.jpg')
+    image2 = models.ImageField(upload_to='images/posts', null=True, blank=True, default='images/posts/default.jpg')
+    image3 = models.ImageField(upload_to='images/posts', null=True, blank=True, default='images/posts/default.jpg')
+    content = models.TextField()
+    published_date = models.DateTimeField(auto_now_add=True)
+    thumbs_up = models.PositiveIntegerField(default=0)
+    liked_by = models.ManyToManyField(User, related_name='liked_posts', blank=True)
+
+    def has_liked(self, user):
+        return user in self.liked_by.all()  
+    
+    def __str__(self):
+        return self.title

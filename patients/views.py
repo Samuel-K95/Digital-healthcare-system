@@ -4,8 +4,10 @@ from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from .models import *
 from . import gemini
-from .forms import PatientForm, UserForm, UserLoginForm, GeminiChatForm
+from .forms import PatientForm, UserForm, UserLoginForm, GeminiChatForm, PatientProfileForm
 from django.urls import reverse
+from django.contrib import messages
+
 
 
 def index(request):
@@ -19,9 +21,18 @@ def PatientDashboard(request, pk):
     
     return render(request, 'patients/dashboard.html', context)
 
-def PatientProfile(request, pk):
-    curr_patient=get_object_or_404(Patient, user__pk=pk)
-    return render(request, 'patients/patient_profile.html', {'patient': curr_patient})
+def PatientProfile(request):
+    curr_patient=get_object_or_404(Patient, user=request.user)
+    if request.method == 'POST':
+        form = PatientProfileForm(request.POST, request.FILES, instance=curr_patient)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your profile has been updated successfully.')
+            return redirect('PatientProfile')
+    else:
+        form = PatientProfileForm(instance=curr_patient)
+
+    return render(request, 'patients/patient_profile.html', {'form': form,'pat': curr_patient})
 
 
 def PatientSignUp(request):
@@ -62,7 +73,7 @@ def PatientLogin(request):
                 login(request, user)
                 chat = gemini.Chat()
                 request.session['chat'] = chat.serialize()
-                return redirect('PatientDashboard', pk=user.pk)
+                return redirect('PatientProfile')
     else:
         user_form  = UserLoginForm()
     

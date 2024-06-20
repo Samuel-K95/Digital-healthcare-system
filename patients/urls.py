@@ -6,7 +6,7 @@ from . import views
 urlpatterns = [
     path('', views.index, name="PatientHome"),
     path('PatientDashboard/<int:pk>', views.PatientDashboard, name="PatientDashboard"),
-    path('PatientProfile/<int:pk>', views.PatientProfile, name="PatientProfile"),
+    path('PatientProfile/', views.PatientProfile, name="PatientProfile"),
     path('PatientSignUp/', views.PatientSignUp, name="PatientSignUp"),
     path('PatientLogin/', views.PatientLogin, name="PatientLogin"),
     path('Posts/<int:pk>', views.Posts, name="Posts"),

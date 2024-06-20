@@ -45,3 +45,17 @@ class GeminiChatForm(forms.Form):
         max_length=255, 
         widget=forms.TextInput(attrs={'placeholder': 'Type your message here...'})
     )
+
+
+class PatientProfileForm(forms.ModelForm):
+    class Meta:
+        model = Patient
+        fields = ['fname', 'lname', 'email', 'contact_number', 'gender', 'address', 'emergency_contact_name', 'emergency_contact_phone', 'date_of_birth']
+         
+        widgets = {
+            'fname': forms.TextInput(attrs={'class': 'w-full text-sm px-4 py-3 rounded outline-none border-2 focus:border-blue-500'}),
+            'lname': forms.TextInput(attrs={'class': 'w-full text-sm px-4 py-3 rounded outline-none border-2 focus:border-blue-500'}),
+
+            'date_of_birth': forms.DateInput(attrs={'type': 'date'}),
+        }
+
