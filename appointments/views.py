@@ -95,7 +95,7 @@ def EditAppointment(request, appointment_id):
             appointment.additional_requests = form.cleaned_data['additional_requests']
             appointment.save()
             messages.success(request, "Appointment Edited Successfully!")
-            return redirect('view_doctors_appointments')
+            return redirect('view_doctor_appointments')
         else:
             for field, errors in form.errors.items():
                 for error in errors:

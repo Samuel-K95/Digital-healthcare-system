@@ -1,65 +1,102 @@
-{% extends 'patients/base.html' %}
+{% extends 'patients/dashboard_prof.html' %}
 
-{% block content %}
-    <div class="all">
-        <div class="top-div">
-            <div id="profileImage"></div>
-
-            <div class="Name-user">
-                <p><span id="firstName">{{ patient.fname }}</span> <span id="lastName">{{ patient.lname }}</span></p>
-                <p>@{{ patient.user.username }}</p>
+{% block dashboard_content %}
+   
+<div class="lg:col-span-7 col-span-1 p-6 bg-gray-200 overflow-y-auto">
+  <div class="container mx-auto p-6">
+    <div class="bg-white shadow-md rounded-lg p-8">
+      <h1 class="text-3xl font-bold text-gray-800 mb-4">Appointments</h1>
+      <div class="grid gap-6">
+        
+        <form action="{% url 'PatientProfile' %}" method="POST" enctype="multipart/form-data" class="mt-10 space-y-4">
+          {% csrf_token %}
+          <div class="flex flex-col items-center">
+            <div class="flex flex-col items-center">
+            
+              {% if pat.photo %}
+              <div class="w-58 h-58 rounded-full mb-4" >
+                <label for="id_profile_picture" class="profile-picture-label">
+                  <img src="{{ pat.photo.url }}" class="w-48 h-48 rounded-full mb-4" alt="User Image">
+                  <div class="ml-24 text-sm -mt-3 mb-4 flex text-center items-center">
+                    <ion-icon class="gray-600" name="pencil"></ion-icon>
+                  </div>
+                </div>
+                {% endif %}
+                
+              </div>            
             </div>
+            
+            <div class="flex justify-center">
+              <div class="w-3/4">
+                <div class="space-y-4">
+                  
+                  <h5 class="text-2xl text-center text-gray-700 mt-2">Personal Information</h5>
+                <label for="fname" class="block text-sm font-medium text-gray-700">First Name</label>
+                <div class="w-full text-sm px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                  {{ form.fname }}
+                </div>
+  
+                <label for="lname" class="block text-sm font-medium text-gray-700">Last Name</label>
+                <div class="w-full text-sm px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                  {{ form.lname }}
+                </div>
+  
+                <label for="id_date_of_birth" class="block text-sm font-medium text-gray-700">Date of Birth</label>
+                <div class="w-full text-sm px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                  {{ form.date_of_birth }}
+                </div>
+      
+                
+                <h5 class="text-2xl text-center text-gray-700 mt-2">Address and Contact Information</h5>
+                
+                <label for="id_email" class="block text-sm font-medium text-gray-700">Active Email</label>
+                <div class="w-full text-sm px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                  {{ form.email}}
 
-            <button class="edit-button">Edit</button>
-        </div>
+                </div>
 
-        <div class="center-div">
-            <p>About Me</p>
+                <label for="id_address" class="block text-sm font-medium text-gray-700">Address</label>
+                <div class="w-full text-sm px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                  {{ form.address }}
+                </div>
+  
+                
+                <label for="id_contact_number" class="block text-sm font-medium text-gray-700">Phone Number</label>
+                <div class="w-full text-sm px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                    {{ form.contact_number }}
+                </div>
+  
+  
+  
+                  <label for="id_emergency_contact_name" class="block text-sm font-medium text-gray-700">Emergency Contact</label>
+                <div class="w-full text-sm px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                  {{ form.emergency_contact_name }}
+                </div>
 
-            <div class="contents">
-                <div class="first-div">
-                    <div class="first-inside">
-                        <p>Full Name</p>
-                        <input type="text" value="{{ patient.fname }} {{ patient.lname }}" id="editable-input" readonly>
-                    </div>
+
+                  <label for="id_emergency_contact_phone" class="block text-sm font-medium text-gray-700">Emergency Contact's Phone Number</label>
+                <div class="w-full text-sm px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                  {{ form.emergency_contact_phone }}
                 </div>
-                <div class="second-div">
-                    <div class="second-inside">
-                        <p>Email</p>
-                        <input type="Email" value='{{ patient.email }}'id="non-editable-email" readonly>
-                    </div>
+
                 </div>
-                <div class="third-div">
-                    <div class="third-inside">
-                        <p>Date of Birth</p>
-                        <input type="date" value='{{ patient.date_of_birth }}' id="non-editable date" readonly>
-                    </div>
-                </div>
-                <div class="fourth-div">
-                    <div class="fourth-inside">
-                        <p>Password</p>
-                        <input type="password" value='{{ patient.password }}' id="editable-pass" readonly>
-                    </div>
-                </div>
+  
+  
+  
+  
+              </div>
             </div>
+          </div>
+          
+          <div class="flex justify-center mt-6">
+            <button type="submit" class="w-3/4 py-2.5 px-4 text-sm rounded text-center text-white bg-blue-500 hover:bg-blue-600 focus:outline-none transition duration-200">
+              Save
+            </button>
+          </div>
+        </form>
+
         </div>
-
-        <div class="bottom-div">
-            <h2>Medical History</h2>
-
-            <div class="bottom-inside">
-                <h3>Past Dignosis</h3>
-                <p>Hypertension</p>
-                <p>Type two Diabetes</p>
-
-                <h3>Past Treamtments</h3>
-                <p>Medication for Hypertension</p>
-                <p>Insulin Therapy for Diabetes</p>
-
-                <h3>Ongoing Conditions</h3>
-                <p>Hypertension</p>
-                <p>Type2 Diabetes</p>
-            </div>
-        </div>
+      </div>
     </div>
+  </div>
 {% endblock %}

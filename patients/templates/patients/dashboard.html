@@ -1,5 +1,183 @@
-{% extends 'patients/base.html' %}
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block additional_head_elements %}
+    <link rel="stylesheet" href="{% static 'css/base.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/chatdesign.css' %}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script defer src="{% static 'js/initial.js' %}" ></script>
+    <script defer src="{% static 'js/currentPage.js' %}" ></script>
+    <script defer src="{% static 'js/chat_toggle.js' %}" ></script>
+{% endblock %}
 
 {% block content %}
+<div class="min-h-screen flex flex-col lg:flex-row">
+  <!-- Burger menu for small screens -->
+  <div class="bg-gray-800 text-white w-full lg:hidden">
+    <div class="flex items-center justify-between p-4">
+      <img src="{% static 'images/logo.png' %}" alt="logo" class="w-20">
+      <button id="burger-menu" class="text-white focus:outline-none">
+        <img src="{% static 'images/user.png' %}" alt="posts">
+      </button>
+    </div>
+  </div>
 
+  <!-- Sidebar -->
+  <div id="sidebar" class="bg-gray-800 text-white w-64 flex-shrink-0 hidden lg:block fixed lg:relative top-0 left-0 h-full lg:h-auto z-50 lg:z-auto">
+    <nav class="mt-10">
+      <div class="flex items-center justify-center py-6">
+        <img src="{% static 'images/logo.png' %}" alt="logo" class="w-32">
+      </div>
+      <a href="{% url 'PatientProfile' %}" class="flex items-center p-2 text-sm font-medium rounded-lg hover:bg-gray-200 transition">
+        <img src="{% static 'images/user.png' %}" alt="posts">
+        <span class="ml-3">My profile</span>
+      </a>
+      <a href="{% url 'view_doctor_appointments' %}" class="flex items-center p-2 text-sm font-medium rounded-lg hover:bg-gray-200 transition">
+        <img src="{% static 'images/appointment.png' %}" alt="posts">
+        <span class="ml-3">Appointments</span>
+      </a>
+
+      <a href="{% url 'view_doctor_appointments' %}" class="flex items-center p-2 text-sm font-medium rounded-lg hover:bg-gray-200 transition">
+        <img src="{% static 'images/comments.png' %}" >
+        <span class="ml-3">Messages</span>
+      </a>
+      
+      <a href="{% url 'PatientLogout' %}" class="flex items-center p-2 text-sm font-medium rounded-lg hover:bg-gray-200 transition">
+        <img src="{% static 'images/logout.png' %}" alt="logout">
+        <span class="ml-3">Log Out</span>
+      </a>
+
+      
+    </nav>
+  </div>
+
+  <!-- Main content -->
+  <div class="flex-grow bg-gray-100 p-6">
+    {% block dashboard_content %}
+    <!-- Placeholder for actual content -->
+    {% endblock %}
+  </div>
+  <div class="chat-bot">
+    <button id="chat-bot"><img src="{% static 'images/live-chat.png' %}" alt="chat-bot"></button>
+    <div id="overlay" class="hidden" >
+        <div id="overlayContent">
+            <div class="msg-container">
+                <div class="msg-header">
+                    <div class="container1">
+                        <img src="{% static 'images/office-man.png' %}" class="msgimg" alt="message image" >
+                        <div class="active">
+                            <p>{{user.first_name}}</p>
+                        </div>
+                    </div>
+                </div>
+        
+                <div class="chat-page">
+                    <div class="msg-inbox">
+                        <div class="chats" id="chats">
+                            <div class="msg-page" id="msg-page">
+                                
+                            </div>
+                        </div>
+
+                        <div class="msg-bottom">
+                            <form method="POST" action="{% url 'GeminiChat' %}" id="chat-form">{% csrf_token %}
+                                <div class="input-group">
+                                    <input type="text" name="question" class="form-control" placeholder="Type your message here..." required>
+                                    <div class="input-group-append">
+                                        <span id="send-icon" class="input-group-text send-icon"><i class="bi bi-send"></i></span>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+
+<script>
+  document.getElementById('burger-menu').addEventListener('click', function() {
+    const sidebar = document.getElementById('sidebar');
+    sidebar.classList.toggle('hidden');
+  });
+
+  // 
+
+  $(document).ready(function() {
+        $('#chat-form').on('submit', function(event) {
+            event.preventDefault();
+        });
+    });
+    
+    $(document).ready(function() {
+        $('#send-icon').click(function() {
+            var chatFormValue = $('#chat-form input[name="question"]').val();
+            if (chatFormValue === ''){
+                alert('Input required!');
+            }
+            else{
+                var outgoing =`
+                <div class="outgoing-chats-container" id="outgoing-chats-container">
+                        <div class="outgoing-chats">
+                            <div class="outgoing-chats-img">
+                                <img src="{% static 'images/office-man.png' %}">
+                            </div>
+                            <div class="outgoing-img">
+                                <div class="outgoing-chats-msg">
+                                    <p>` + chatFormValue + `</p>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                `
+                $('#msg-page').append(outgoing)
+
+                $.ajax({
+                    url: $('#chat-form').attr('action'),
+                    type: 'POST',
+                    data: $('#chat-form').serialize(),
+                    
+                    success: function(response) {
+                        console.log(response);
+                        var incoming = `
+                            <div class="received-chats" id="received-chats">
+                                <div class="received-chats-img">
+                                    <img src="{% static 'images/chat-bot.png' %}" />
+                                </div>
+
+                                <div class="received-msg">
+                                    <div class="received-msg-inbox" id="received-msg-inbox">
+                                        <p>` + response.response + `</p>
+                                    </div>
+                                </div>
+                            </div>
+                            `;
+                        $('#msg-page').append(incoming );
+                        $('#chat-form .form-control').val('');
+                    },
+                    error: function(xhr, errmsg, err) {
+                        console.log(xhr.status + ": " + xhr.responseText);
+                    }
+                });
+            }
+            return false;
+        });
+    });
+
+
+
+
+
+
+  // 
+
+</script>
 {% endblock %}
