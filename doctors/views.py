@@ -4,7 +4,7 @@ from django import forms
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse, JsonResponse
 from .models import Doctor, Post
-from .forms import DoctorProfileForm, UserLoginForm, UserForm, ThumbsUpForm
+from .forms import DoctorProfileForm, UserLoginForm, UserForm, ThumbsUpForm, PostForm
 from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -12,6 +12,7 @@ from django.contrib.auth.models import User
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import auth
+from django.contrib.auth.decorators import login_required
 #login and logout
 
 
@@ -206,6 +207,13 @@ def PostList(request):
     return render(request, 'posts/post_list.html', context)
 
 
+def MyPosts(request):
+    doctor = Doctor.objects.get(user=request.user)
+    posts = Post.objects.filter(author=doctor).order_by('-published_date')
+    context = {'posts': posts}
+    return render(request, 'posts/my_posts.html', context)
+
+
 def PostDetail(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
     liked = post.has_liked(request.user)  # Check if user already liked
@@ -225,3 +233,40 @@ def PostDetail(request, post_id):
 
     context = {'post': post, 'liked': liked}
     return render(request, 'posts/post_detail.html', context)
+
+
+@login_required(login_url='login')
+def CreatePost(request):
+    doctor = Doctor.objects.get(user=request.user)
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = doctor
+            post.save()
+            return redirect('post_detail', post_id=post.id)
+    else:
+        form = PostForm()
+
+    return render(request, 'posts/create_post.html', {'form': form})
+
+login_required(login_url='login')
+def EditPost(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES, instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect('post_detail', post_id=post.id)
+    else:
+        form = PostForm(instance=post)
+
+    return render(request, 'posts/edit_post.html', {'form': form, 'post': post})
+
+@login_required(login_url='login')
+def DeletePost(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    post.delete()
+    messages.success(request,"Post Deleted Successfully!")
+    return redirect('post_list')

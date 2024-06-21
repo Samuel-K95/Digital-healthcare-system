@@ -1,0 +1,71 @@
+{% extends 'doctors/dashboard.html' %}
+{% load static %}
+{% block dashboard_content %}
+
+<div class="bg-gray-200 font-[sans-serif] text-[#333]">
+  <div class="min-h-screen flex flex-col items-center justify-center py-6 px-4">
+    <div class="max-w-3xl w-full border py-8 px-6 rounded border-gray-300 bg-white">
+      <a href="javascript:void(0)"><img src="{% static 'images/logo.png' %}" alt="logo" class='w-40 mb-10' /></a>
+      {% if request.user.is_doctor %}
+      <h1 class="text-center text-3xl font-extrabold text-gray-800">Welcome Dr. {{ request.user.doctor.first_name }}</h1>
+      {% endif %}
+      <h2 class="text-2xl text-center text-gray-700 mt-2">Edit Post</h2>
+
+      <hr class="my-4">
+      <form action="{% url 'edit_post' post.id %}" method="POST" enctype="multipart/form-data" class="mt-10 space-y-4">
+        {% csrf_token %}
+        <div class="flex flex-col items-center">
+          <div class="flex justify-center">
+            <div class="w-3/4">
+              <div class="space-y-4">
+
+                <label for="id_title" class="block text-sm font-medium text-gray-700">Title</label>
+                <div class="w-full text-sm px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                  {{ form.title }}
+                </div>
+
+                <label for="id_description" class="block text-sm font-medium text-gray-700">Description</label>
+                <div class="w-full text-sm px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                  {{ form.description }}
+                </div>
+
+                <label for="id_image_main" class="block text-sm font-medium text-gray-700">Main Image</label>
+                <div class="w-full text-sm px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                  {{ form.image_main }}
+                </div>
+
+                <label for="id_image1" class="block text-sm font-medium text-gray-700">Image 1</label>
+                <div class="w-full text-sm px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                  {{ form.image1 }}
+                </div>
+
+                <label for="id_image2" class="block text-sm font-medium text-gray-700">Image 2</label>
+                <div class="w-full text-sm px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                  {{ form.image2 }}
+                </div>
+
+                <label for="id_image3" class="block text-sm font-medium text-gray-700">Image 3</label>
+                <div class="w-full text-sm px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                  {{ form.image3 }}
+                </div>
+
+                <label for="id_content" class="block text-sm font-medium text-gray-700">Content</label>
+                <div class="w-full text-sm px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                  {{ form.content }}
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex justify-center mt-6">
+          <button type="submit" class="w-3/4 py-2.5 px-4 text-sm rounded text-center text-white bg-blue-500 hover:bg-blue-600 focus:outline-none transition duration-200">
+            Save Changes
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
