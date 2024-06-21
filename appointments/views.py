@@ -6,6 +6,8 @@ from doctors.models import Doctor
 from patients.models import Patient
 from .forms import AppointmentForm, RescheduleAppointmentForm
 from django.contrib import messages
+from django.core.mail import send_mail
+from django.conf import settings
 
 
 
@@ -57,14 +59,6 @@ def DeleteAppointment(request, appointment_id):
     return redirect('view_doctor_appointments')
 
 
-@login_required
-def ConfirmAppointment(request, appointment_id):
-
-    appointment = Appointment.objects.get(pk=appointment_id)
-    appointment.status = 'accepted'
-    appointment.save()
-    messages.success(request, "Appointment Accepted Successfully")
-    return redirect('view_patient_appointments')
 
 @login_required
 def RescheduleAppointment(request, appointment_id):
@@ -106,3 +100,60 @@ def EditAppointment(request, appointment_id):
     return render(request, 'patients/edit_appointment.html', {'form': form})
 
 
+@login_required
+def StartVideoCall(request, appointment_id):
+    appointment = Appointment.objects.get(pk=appointment_id)
+    room_id = str(appointment.id) 
+    if(Doctor.objects.filter(user=request.user).exists()):
+        doc = Doctor.objects.get(user=request.user)
+        full_name = f"Dr. {doc.first_name} {doc.last_name}"    
+    else:
+        full_name = f"{request.user}"    
+
+    return render(request, 'communication/video_call.html', {'full_name': full_name, 'room_id':room_id})
+    
+@login_required
+def JoinTheCall(request, appointment_id):
+    roomID = str(appointment_id)
+    meeting_link = f'http://localhost:8000/Appointments/VideoCall/{roomID}/?roomID={roomID}'
+    return redirect(meeting_link)
+
+    
+
+@login_required
+def ConfirmAppointment(request, appointment_id):
+    appointment = Appointment.objects.get(pk=appointment_id)
+    appointment.status = 'accepted'
+
+    # Generate the video call link
+    doc = Doctor.objects.get(user=request.user)
+    full_name = f"Dr. {doc.first_name} {doc.last_name}"
+    room_id = str(appointment.id)  # Use the appointment ID as the room ID
+    # video_call_link = f"{request.scheme}://{request.get_host()}/video_call/?roomID={room_id}"
+    # video_call_link = f"http://localhost:8000/Appointments/VideoCall/13/?roomID=3832"
+    video_call_link = f"http://localhost:8000/Appointments/VideoCall/14/?roomID={room_id}"
+    appointment.video_call_link = video_call_link
+
+    appointment.save()
+
+
+    # Send an email to the patient with the video call link
+    patient_email = appointment.patient.user.email
+    subject = "Video Call Link for Your Appointment"
+    message = f"Dear {appointment.patient.user.first_name},\n\n"
+    message += f"{full_name} has confirmed your appointment.\n"
+    message += f"Please click the following link to join the video call:\n"
+    message += f"{video_call_link}\n\n"
+    message += "Best regards,\n"
+    message += "MediConnect Team"
+
+    send_mail(
+        subject,
+        message,
+        settings.DEFAULT_FROM_EMAIL,
+        [patient_email],
+        fail_silently=False,
+    )
+
+    messages.success(request, "Appointment Accepted Successfully")
+    return redirect('view_patient_appointments')

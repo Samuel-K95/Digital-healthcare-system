@@ -17,12 +17,12 @@ from django.contrib.auth.decorators import login_required
 
 
 def DoctorDetail(request,pk):
-    doctors = Doctor.objects.get(id=pk)
+    doctor = Doctor.objects.get(id=pk)
     context = {
-        'doctors' : doctors  
+        'doctor' : doctor  
     }
     
-    return render(request, 'doctors/dashboard.html', context)
+    return render(request, 'doctors/doctor_detail.html', context)
 
 
 
