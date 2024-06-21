@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate
 from django.core.validators import EmailValidator, MinLengthValidator
+from .models import Post
 
 class UserForm(UserCreationForm):
     password1= forms.CharField(
@@ -79,3 +80,10 @@ class UserLoginForm(forms.Form):
   #POSTS SECTION
 class ThumbsUpForm(forms.Form):
     pass
+
+
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['title', 'description', 'image_main', 'image1', 'image2', 'image3', 'content']
