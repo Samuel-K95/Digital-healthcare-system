@@ -16,6 +16,7 @@ class Appointment(models.Model):
         ('completed', 'Completed'),
     ), default='pending')
     additional_requests = models.CharField(max_length=500, null=True, blank=True)
+    video_call_link = models.CharField(max_length=200, null=True, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

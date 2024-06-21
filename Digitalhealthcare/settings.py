@@ -17,6 +17,10 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+# For hiding the sensetive information
+from decouple import config
+
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -120,6 +124,16 @@ STATICFILES_DIRS =[
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Email configuration
+EMAIL_HOST = config('EMAIL_HOST') 
+EMAIL_PORT = config('EMAIL_PORT', cast=int)
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = config('EMAIL_USE_TLS')
+DEFAULT_FROM_EMAIL=config('DEFAULT_FROM_EMAIL')
+
+
 
 # Configure Media files
 MEDIA_URL = '/media/'

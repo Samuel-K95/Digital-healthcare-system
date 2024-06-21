@@ -1,0 +1,27 @@
+{% extends 'doctors/dashboard.html' %}
+{% load static %}
+
+
+{% block dashboard_content %}
+
+<div class="lg:col-span-7 w col-span-1 p-6 bg-gray-200 overflow-y-auto">
+    <div class="container mx-auto p-6">
+
+      <header>Join Room</header>
+      <form action="{% url 'join_the_call' %}" method="POST">
+        {% csrf_token %}
+        <input type="text" placeholder="Enter room ID" name="roomID">
+        <input type="submit"  value="Join">
+        <center>
+          {% if success %}
+          <p style="color: green;"><b>{{ success }}</b></p>
+          {% endif %}
+          {% if error %}
+          <p style="color: red;">{{ error }}</p>
+          {% endif %}
+        </center>
+      </form>
+
+    </div>
+ </div>
+{% endblock %}

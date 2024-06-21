@@ -9,7 +9,7 @@ urlpatterns = [
     path('DoctorLogin/', views.DoctorLogin, name="DoctorLogin"),
     path('DoctorLogout/', views.DoctorLogout, name="DoctorLogout"),
     path('BrowseDoctors/', views.BrowseDoctors, name="BrowseDoctors"),
-    path('DoctorDetail/<int:pk>', views.DoctorDetail, name="DoctorDetail"),
+    path('DoctorDetail/<int:pk>', views.DoctorDetail, name="doctor_detail"),
 
 
     path('Posts/', views.PostList, name='post_list'),
