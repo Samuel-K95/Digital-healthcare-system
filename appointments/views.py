@@ -40,14 +40,14 @@ def ScheduleAppointment(request, doctor_id):
 @login_required
 def ViewMyPatientAppointments(request):
     doctor = get_object_or_404(Doctor, user=request.user)
-    appointments = Appointment.objects.filter(doctor=doctor)
+    appointments = Appointment.objects.filter(doctor=doctor).order_by('-appointment_date')
 
     return render(request, 'doctors/patient_appointments.html', {'appointments': appointments, 'doctor': doctor})
 
 @login_required
 def ViewMyDoctorAppointments(request):
     patient = get_object_or_404(Patient, user=request.user)
-    appointments = Appointment.objects.filter(patient=patient)
+    appointments = Appointment.objects.filter(patient=patient).order_by('-appointment_date')
 
     return render(request, 'patients/doctor_appointments.html', {'appointments': appointments})
 
@@ -104,13 +104,18 @@ def EditAppointment(request, appointment_id):
 def StartVideoCall(request, appointment_id):
     appointment = Appointment.objects.get(pk=appointment_id)
     room_id = str(appointment.id) 
+
     if(Doctor.objects.filter(user=request.user).exists()):
         doc = Doctor.objects.get(user=request.user)
+        template_name = 'doctors/dashboard.html'
         full_name = f"Dr. {doc.first_name} {doc.last_name}"    
     else:
+        template_name = 'patients/dashboard.html'
         full_name = f"{request.user}"    
+    
+    print(template_name)
 
-    return render(request, 'communication/video_call.html', {'full_name': full_name, 'room_id':room_id})
+    return render(request, 'communication/video_call.html', {'full_name': full_name, 'room_id':room_id, 'template_name':template_name})
     
 @login_required
 def JoinTheCall(request, appointment_id):

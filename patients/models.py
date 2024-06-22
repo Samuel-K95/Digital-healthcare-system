@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 import datetime 
-
+from doctors.models import Doctor
 
 
 # Create your models here.
@@ -32,13 +32,15 @@ class Patient(models.Model):
     def __str__(self):
         return self.fname + " " + self.lname
 
-class MedicalHisory(models.Model):
+class MedicalHistory(models.Model):
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='medical_histories')
+    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE, related_name='patient_medical_histories', null=True, blank=True)
+    diagnosis = models.TextField(null=True, blank=True)
+    symptoms = models.TextField(null=True, blank=True)
+    treatment = models.TextField(null=True, blank=True)
+    prescription = models.TextField(null=True, blank=True)
+    notes = models.TextField(null=True, blank=True)
+    date = models.DateField(auto_now_add=True)
 
-    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
-    diagnosis = models.CharField(max_length=255)
-    details = models.TextField()
-    date = models.DateField()
-
-    
     def __str__(self):
-        return f'Patients name: {self.patient.name} diagnosis: {self.diagnosis}'
+        return f"Medical History for {self.patient.fname} {self.patient.lname}"

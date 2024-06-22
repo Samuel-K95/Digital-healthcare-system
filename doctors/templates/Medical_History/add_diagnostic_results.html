@@ -1,0 +1,16 @@
+{% extends 'doctors/dashboard.html' %}
+
+{% block content %}
+<div class="bg-gray-200 font-[sans-serif] text-[#333]">
+  <div class="min-h-screen flex flex-col items-center justify-center py-6 px-4">
+    <div class="max-w-3xl w-full border py-8 px-6 rounded border-gray-300 bg-white">
+      <h1 class="text-2xl font-bold mb-4">Add Diagnostic Results for {{ patient.fname }} {{ patient.lname }}</h1>
+      <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Save</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

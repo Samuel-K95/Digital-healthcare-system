@@ -4,10 +4,10 @@ from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from .models import *
 from . import gemini
-from .forms import PatientForm, UserForm, UserLoginForm, GeminiChatForm, PatientProfileForm
+from .forms import PatientForm, UserForm, UserLoginForm, GeminiChatForm, PatientProfileForm, MedicalHistoryForm
 from django.urls import reverse
 from django.contrib import messages
-
+from django.contrib.auth.decorators import login_required
 
 
 def index(request):
@@ -99,6 +99,37 @@ def GeminiChat(request):
     
     return render(request, 'patients/base.html', {'chat_form': chat_form})
 
+
+def view_medical_history(request, patient_id):
+    patient = get_object_or_404(Patient, id=patient_id)
+    medical_histories = patient.medical_histories.all()
+    return render(request, 'Medical_History/medical_history.html', {'patient': patient, 'medical_histories': medical_histories})
+
+
+@login_required
+def add_diagnostic_results(request, patient_id):
+    doctor = Doctor.objects.get(user=request.user)
+    patient = get_object_or_404(Patient, id=patient_id)
+    if request.method == 'POST':
+        form = MedicalHistoryForm(request.POST)
+        if form.is_valid():
+            medical_history = form.save(commit=False)
+            medical_history.patient = patient
+            medical_history.doctor = doctor
+            medical_history.save()
+            return redirect('view_medical_history', patient_id=patient.id)
+    else:
+        form = MedicalHistoryForm()
+    return render(request, 'Medical_History/add_diagnostic_results.html', {'form': form, 'patient': patient})
+
+
+
+
+
+
+
+
+
 def Posts(request):
     pass
 
@@ -116,3 +147,4 @@ def PatientLogout(request):
     next_page = request.GET.get('next', 'PatientLogin')
     return redirect(reverse(next_page))
     
+
