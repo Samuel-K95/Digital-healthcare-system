@@ -14,6 +14,8 @@ urlpatterns = [
     path('Doctors/<int:pk>', views.Doctors, name="Doctors"),
     path('Messages/<int:pk>', views.Messages, name="Messages"),
     path('PatientLogout/', views.PatientLogout, name="PatientLogout"),
-    path('GeminiChat/', views.GeminiChat, name="GeminiChat")
+    path('GeminiChat/', views.GeminiChat, name="GeminiChat"),
+    path('medical-history/<int:patient_id>', views.view_medical_history, name='view_medical_history'),
+    path('add-diagnostic-results/<int:patient_id>', views.add_diagnostic_results, name='add_diagnostic_results'),
 ]
 

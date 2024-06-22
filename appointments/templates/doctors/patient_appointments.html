@@ -29,6 +29,22 @@
               <button class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700 transition duration-300 font-bold">
                 <a href="{% url 'start_video_call' apt.id %}">Start Video Call</a>
               </button>
+
+              
+              <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-300 font-bold" onclick="openMedicalHistoryWindow('{% url 'view_medical_history' apt.patient.id %}')">
+                Medical History
+            </button>
+            
+            <script>
+                function openMedicalHistoryWindow(url) {
+                    const width = 800; // Set the desired width of the new window
+                    const height = 600; // Set the desired height of the new window
+                    const left = (screen.width - width) / 2;
+                    const top = (screen.height - height) / 2;
+                    const windowFeatures = `width=${width},height=${height},left=${left},top=${top},resizable=yes,scrollbars=yes`;
+                    window.open(url, '_blank', windowFeatures);
+                }
+            </script>
               
    
               
