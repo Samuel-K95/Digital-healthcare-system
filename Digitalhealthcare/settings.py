@@ -24,6 +24,7 @@ from decouple import config
 # Application definition
 
 INSTALLED_APPS = [
+    'django_extensions',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -34,6 +35,7 @@ INSTALLED_APPS = [
     'doctors',
     'adminpanel',
     'appointments',
+    
 ]
 
 MIDDLEWARE = [
@@ -133,7 +135,10 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = config('EMAIL_USE_TLS')
 DEFAULT_FROM_EMAIL=config('DEFAULT_FROM_EMAIL')
 
-
+GRAPH_MODELS ={
+'all_applications': True,
+'graph_models': True,
+}
 
 # Configure Media files
 MEDIA_URL = '/media/'
