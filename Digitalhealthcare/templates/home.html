@@ -36,11 +36,9 @@
     <section class="relative px-4 py-16 sm:px-8 lg:px-16 xl:px-40 2xl:px-64 lg:py-32">
       <div class="flex flex-col lg:flex-row lg:-mx-8">
         <div class="w-full lg:w-1/2 lg:px-8">
-          <h2 class="text-3xl leading-tight font-bold mt-4">Welcome to Lorem ipsum dolor sit amet consectetur.</h2>
+          <h2 class="text-3xl leading-tight font-bold mt-4">MediConnect.</h2>
           <p class="text-lg mt-4 font-semibold">Excellence diagnostics in the digital world</p>
-          <p class="mt-2 leading-relaxed">Donec convallis sollicitudin facilisis. Integer nisl ligula, accumsan non
-            tincidunt ac, imperdiet in enim.
-            Donec efficitur ullamcorper metus, eu venenatis nunc. Nam eget neque tempus, mollis sem a, faucibus mi.</p>
+          <p class="mt-2 leading-relaxed">We provide the best care for our customers by connecting highly professional doctors with those who need help.</p>
         </div>
 
         <div class="w-full lg:w-1/2 lg:px-8 mt-12 lg:mt-0">
@@ -50,7 +48,7 @@
             </div>
             <div class="md:ml-8 mt-4 md:mt-0">
               <h4 class="text-xl font-bold leading-tight">Everything You Need Under One Roof</h4>
-              <p class="mt-2 leading-relaxed">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam ratione repellat sint dolorum eum iusto corporis animi quia eaque obcaecati.</p>
+              <p class="mt-2 leading-relaxed">Telemedicine at its best can be found at MediCare.</p>
             </div>
           </div>
 
@@ -61,8 +59,7 @@
             <div class="md:ml-8 mt-4 md:mt-0">
               <h4 class="text-xl font-bold leading-tight">Our Patient-Focused Approach</h4>
               <p class="mt-2 leading-relaxed">Your treatment plan will perfectly match your needs, lifestyle, and goals.
-                Even if it’s been years
-                since you last visited the dentist, we can help. Our comfortable office, compassionate team, and
+                Even if there is any medical issue you want to consult, we can help. Our comfortable platform, compassionate team, and
                 minimally-invasive treatments will help you feel completely at ease.</p>
             </div>
           </div>
@@ -74,8 +71,8 @@
           <div class="bg-white rounded-lg border border-gray-300 p-8">
             <img src="{% static 'images/teeth-whitening.svg' %}" alt="" class="h-20 mx-auto">
 
-            <h4 class="text-xl font-bold mt-4">Teeth Whitening</h4>
-            <p class="mt-1">Let us show you how our experience.</p>
+            <h4 class="text-xl font-bold mt-4">Medical History</h4>
+            <p class="mt-1">Let us show you our experience.</p>
             <a href="#" class="block mt-4">Read More</a>
           </div>
         </div>
@@ -146,91 +143,31 @@
       </div>
 
       <div class="md:flex mt-12 md:-mx-4">
+        {% for post in posts %}
         <div class="md:px-4 md:w-1/2 xl:w-1/4">
           <div class="bg-white rounded border border-gray-300">
-            <img src="{% static 'images/doc4.jpg' %}" class="w-full h-48 overflow-hidden bg-gray-300"></img>
+            <img src="{{ post.image_main.url }}" class="w-full h-48 overflow-hidden bg-gray-300"></img>
             <div class="p-4">
               <div class="flex items-center text-sm">
                 <span class="text-teal-500 font-semibold">Health</span>
-                <span class="ml-4 text-gray-600">29 Dec, 2023</span>
+                <span class="ml-4 text-gray-600">{{ post.published_date }}</span>
               </div>
-              <p class="text-lg font-semibold leading-tight mt-4">Card Title</p>
-              <p class="text-gray-600 mt-1">This card has supporting text below as a natural lead-in to additional content.
+              <p class="text-lg font-semibold leading-tight mt-4">  {{ post.title }}</p>
+              <p class="text-gray-600 mt-1">{{ post.description }}
               </p>
               <div class="flex items-center mt-4">
                 <div class="w-8 h-8 rounded-full overflow-hidden bg-gray-300"></div>
                 <div class="ml-4">
-                  <p class="text-gray-600">By <span class="text-gray-900 font-semibold">Abby Sims</span></p>
+                  <p class="text-gray-600">By <span class="text-gray-900 font-semibold">{{ post.author }}</span></p>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
-        <div class="md:px-4 md:w-1/2 xl:w-1/4 mt-4 md:mt-0">
-          <div class="bg-white rounded border border-gray-300 ">
-            <img src="{% static 'images/doc5.jpg' %}" class="w-full h-48 overflow-hidden bg-gray-300"></img>
-            <div class="p-4">
-              <div class="flex items-center text-sm">
-                <span class="text-teal-500 font-semibold">Nutrition</span>
-                <span class="ml-4 text-gray-600">29 May, 2024</span>
-              </div>
-              <p class="text-lg font-semibold leading-tight mt-4">Card Title</p>
-              <p class="text-gray-600 mt-1">This card has supporting text below as a natural lead-in to additional
-                content.
-              </p>
-              <div class="flex items-center mt-4">
-                <div class="w-8 h-8 rounded-full overflow-hidden bg-gray-300"></div>
-                <div class="ml-4">
-                  <p class="text-gray-600">By <span class="text-gray-900 font-semibold">Abby Sims</span></p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="md:px-4 md:w-1/2 xl:w-1/4 mt-4 md:mt-0">
-          <div class="bg-white rounded border border-gray-300 ">
-            <img src="{% static 'images/doc3.jpg' %}" class="w-full h-48 overflow-hidden bg-gray-300"></img>
-            <div class="p-4">
-              <div class="flex items-center text-sm">
-                <span class="text-teal-500 font-semibold">Nutrition</span>
-                <span class="ml-4 text-gray-600">29 Nov, 2023</span>
-              </div>
-              <p class="text-lg font-semibold leading-tight mt-4">Card Title</p>
-              <p class="text-gray-600 mt-1">This card has supporting text below as a natural lead-in to additional
-                content.
-              </p>
-              <div class="flex items-center mt-4">
-                <div class="w-8 h-8 rounded-full overflow-hidden bg-gray-300"></div>
-                <div class="ml-4">
-                  <p class="text-gray-600">By <span class="text-gray-900 font-semibold">Dr. Nelson</span></p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="md:px-4 md:w-1/2 xl:w-1/4 mt-4 md:mt-0">
-          <div class="bg-white rounded border border-gray-300 ">
-            <img src="{% static 'images/doc2.png' %}" class="w-full h-48 overflow-hidden bg-gray-300"></img>
-            <div class="p-4">
-              <div class="flex items-center text-sm">
-                <span class="text-teal-500 font-semibold">Nutrition</span>
-                <span class="ml-4 text-gray-600">29 Jun, 2024</span>
-              </div>
-              <p class="text-lg font-semibold leading-tight mt-4">Card Title</p>
-              <p class="text-gray-600 mt-1">This card has supporting text below as a natural lead-in to additional
-                content.
-              </p>
-              <div class="flex items-center mt-4">
-                <div class="w-8 h-8 rounded-full overflow-hidden bg-gray-300"></div>
-                <div class="ml-4">
-                  <p class="text-gray-600">By <span class="text-gray-900 font-semibold">Abby Sims</span></p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
+        {% endfor %}
+        
+        
+        
       </div>
     </section>
     <!-- end blog -->
