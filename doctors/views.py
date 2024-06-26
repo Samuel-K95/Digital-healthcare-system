@@ -8,12 +8,22 @@ from .forms import DoctorProfileForm, UserLoginForm, UserForm, ThumbsUpForm, Pos
 from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth.models import User
+from django.core.mail import send_mail
+from django.conf import settings
 #login and logout
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 #login and logout
+
+#Email verification and account activation
+from django.contrib import messages
+from .utils import  send_verification_email
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes
+from django.contrib.auth.tokens import default_token_generator
+#Email verification and account activation
 
 
 def DoctorDetail(request,pk):
@@ -57,7 +67,13 @@ def registerDoctor(request):
             email = user_form.cleaned_data['email']
             password = user_form.cleaned_data['password1']
             user=authenticate(username=username, password=password)
+            
+             #Send email
+            mail_subject = 'Please activate your account'
+            email_template = 'doctors/account_verification_email.html'
+            send_verification_email(request, user, mail_subject, email_template)
 
+            
             messages.success(request,"Doctor Registred Successfully!")
             login(request,user)            
             return redirect('DoctorProfile')
@@ -78,6 +94,25 @@ def registerDoctor(request):
     }
     return render(request, 'doctors/doctors_registration_page.html', context)
 
+
+def activateAccount(request, uidb64, token):
+    print("*************-------Account Activation-------**************")
+   
+    try:
+        uid = urlsafe_base64_decode(uidb64).decode()
+        user = User._default_manager.get(pk=uid)
+
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+
+    if user is not None and default_token_generator.check_token(user, token):
+        user.is_active = True
+        user.save()
+        print("Account Successfully Activated!")
+        return redirect('home')
+    else:
+        print("Invalid Activation Link!")
+        return redirect('home')
 
 def DoctorLogin(request):
   if request.method == 'POST':
@@ -105,7 +140,9 @@ def BrowseDoctors(request):
     if(request.user.is_authenticated):
         if(Doctor.objects.filter(user=request.user).exists()):
             template = 'doctors/search_and_book_doctors.html'
+            print("Doctor")
         else:    
+            print("Patient")
             template = 'patients/search_and_book_doctors.html'
     else:
         template = 'doctors/browse_doctors.html'

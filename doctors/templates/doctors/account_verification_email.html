@@ -1,0 +1,11 @@
+{% autoescape off %}
+
+    Greetings {{user.username}},
+    Please activate your account by using the following link
+    http://{{domain}}{% url 'activate' uidb64=uid token=token %}
+
+    Thank you for using MediConnect Platform.
+    Sincerely yours,
+    MediConnect Team.
+
+{% endautoescape %}
