@@ -6,8 +6,34 @@
     <div class="max-w-3xl w-full border py-8 px-6 rounded border-gray-600 bg-white">
       <h1 class="text-2xl font-bold mb-4">Add Diagnostic Results for {{ patient.fname }} {{ patient.lname }}</h1>
       <form method="post">
+        
         {% csrf_token %}
-        {{ form.as_p }}
+        <label for="user_name" class="block mb-2 text-sm font-medium text-gray-700"><b>Diagnosis</b></label>
+        <div class="border-2 focus:border-blue-500">
+
+          {{ form.diagnosis }}
+        </div>
+        <label for="user_name" class="block mb-2 text-sm font-medium text-gray-700"><b>Symptoms</b></label>
+        <div class="border-2 focus:border-blue-500">
+
+          {{ form.symptoms }}
+        </div>
+        <label for="user_name" class="block mb-2 text-sm font-medium text-gray-700"><b>Treatment</b></label>
+        <div class="border-2 focus:border-blue-500">
+
+          {{ form.treatment }}
+        </div>
+        <label for="user_name" class="block mb-2 text-sm font-medium text-gray-700"><b>Prescription</b></label>
+        <div class="border-2 focus:border-blue-500">
+
+          {{ form.prescription }}
+        </div>
+        <label for="user_name" class="block mb-2 text-sm font-medium text-gray-700"><b>Notes</b></label>
+        <div class="border-2 focus:border-blue-500">
+
+          {{ form.notes }}
+        </div>
+        <br>
         <button type="submit" class="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Save</button>
       </form>
     </div>
