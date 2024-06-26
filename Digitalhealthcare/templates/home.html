@@ -115,11 +115,11 @@
       <div class="flex flex-col lg:flex-row lg:-mx-8">
         <div class="w-full lg:w-1/2 lg:px-8">
           <h2 class="text-3xl leading-tight font-bold mt-4">Why choose the MediConnect?</h2>
-          <p class="mt-2 leading-relaxed">Aenean ut tellus tellus. Suspendisse potenti. Nullam tincidunt lacus tellus,
-            sed aliquam est vehicula a. Pellentesque consectetur condimentum nulla, eleifend condimentum purus vehicula
-            in. Donec convallis sollicitudin facilisis. Integer nisl ligula, accumsan non tincidunt ac, imperdiet in
-            enim. Donec efficitur ullamcorper metus, eu venenatis nunc. Nam eget neque tempus, mollis sem a, faucibus
-            mi.</p>
+          <p class="mt-2 leading-relaxed">The general objective of the MediConnect online healthcare platform project is to revolutionize and modernize the 
+            delivery of healthcare services by addressing the significant shortcomings and challenges inherent in the current 
+            healthcare system. The project aims to introduce a comprehensive, user-friendly, and technologically advanced 
+            platform that enhances operational efficiency, improves patient experience, and sets the foundation for future 
+            growth and innovation.</p>
         </div>
 
         <div class="w-full md:max-w-md md:mx-auto lg:w-1/2 lg:px-8 mt-12 mt:md-0">
@@ -135,34 +135,40 @@
     <!-- start blog -->
     <section class="relative bg-white px-4 sm:px-8 lg:px-16 xl:px-40 2xl:px-64 py-32">
       <div class="">
-        <h2 class="text-3xl leading-tight font-bold">Health Blog</h2>
-        <p class="text-gray-600 mt-2 md:max-w-lg">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac
-          turpis egestas.</p>
+        <h2 class="text-3xl leading-tight font-bold">Health Blogs</h2>
+        <p class="text-gray-600 mt-2 md:max-w-lg">Our objective of the MediConnect online healthcare platform project is to revolutionize and modernize the 
+          delivery of healthcare services by addressing the significant shortcomings and challenges inherent in the current 
+          healthcare system. </p>
 
-        <a href="#" title="" class="inline-block text-teal-500 font-semibold mt-6 mt:md-0">View All Posts</a>
+        <a href="{% url 'post_list' %}" title="" class="inline-block text-teal-500 font-semibold mt-6 mt:md-0">View All Posts</a>
       </div>
 
       <div class="md:flex mt-12 md:-mx-4">
         {% for post in posts %}
+
         <div class="md:px-4 md:w-1/2 xl:w-1/4">
+          <a href="{% url 'post_detail' post.id %}">
           <div class="bg-white rounded border border-gray-300">
             <img src="{{ post.image_main.url }}" class="w-full h-48 overflow-hidden bg-gray-300"></img>
             <div class="p-4">
               <div class="flex items-center text-sm">
-                <span class="text-teal-500 font-semibold">Health</span>
+                
                 <span class="ml-4 text-gray-600">{{ post.published_date }}</span>
               </div>
               <p class="text-lg font-semibold leading-tight mt-4">  {{ post.title }}</p>
               <p class="text-gray-600 mt-1">{{ post.description }}
               </p>
               <div class="flex items-center mt-4">
-                <div class="w-8 h-8 rounded-full overflow-hidden bg-gray-300"></div>
+                <div class="w-8 h-8 rounded-full overflow-hidden bg-gray-300">
+                  <img src="{{ post.author.photo.url }}" alt="">
+                </div>
                 <div class="ml-4">
                   <p class="text-gray-600">By <span class="text-gray-900 font-semibold">{{ post.author }}</span></p>
                 </div>
               </div>
             </div>
           </div>
+        </a>
         </div>
         {% endfor %}
         
@@ -192,21 +198,7 @@
           <h3 class="font-bold text-2xl">MediConnect</h3>
           <p class="text-gray-400">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy.</p>
 
-          <form class="flex items-center mt-6">
-            <div class="w-full">
-              <label class="block uppercase tracking-wide text-gray-600 text-xs font-bold mb-2" for="grid-last-name">
-                Subscribe for our Newsletter
-              </label>
-              <div class="relative">
-                <input
-                  class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-4 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                  type="email" placeholder="Enter Your Email Address">
-
-                <button type="submit"
-                  class="bg-teal-500 hover:bg-teal-400 text-white px-4 py-2 text-sm font-bold rounded absolute top-0 right-0 my-2 mr-2">Subscribe</button>
-              </div>
-            </div>
-          </form>
+         
         </div>
 
         <div class="w-full lg:w-1/6 mt-8 lg:mt-0 lg:mx-4">
