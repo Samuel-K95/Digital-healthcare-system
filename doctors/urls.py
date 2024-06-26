@@ -18,5 +18,6 @@ urlpatterns = [
     path('Posts/CreatePost/', views.CreatePost, name='create_post'),
     path('Posts/EditPost/<int:post_id>/', views.EditPost, name='edit_post'),
     path('Posts/DeletePost/<int:post_id>/', views.DeletePost, name='delete_post'),
+    path('activate/<uidb64>/<token>/',views.activateAccount , name='activate'),
 
 ]
