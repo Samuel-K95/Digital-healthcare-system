@@ -39,18 +39,28 @@ def DoctorDetail(request,pk):
     return render(request, 'doctors/doctor_detail.html', context)
 
 
-
+@login_required(login_url='login')
 def DoctorProfile(request):
     doctor = get_object_or_404(Doctor, user=request.user)
+
     if request.method == 'POST':
         form = DoctorProfileForm(request.POST, request.FILES, instance=doctor)
         if form.is_valid():
-            form.save()
+            doc = form.save(commit=False)
+            doc.date_of_birth = form.cleaned_data['date_of_birth']
+            doc.date_issued = form.cleaned_data['date_issued']
+            doc.expiry_date = form.cleaned_data['expiry_date']
+            doc.save()
             messages.success(request, 'Your profile has been updated successfully.')
             return redirect('DoctorProfile')
+        else:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{error}")
     else:
         form = DoctorProfileForm(instance=doctor)
-    return render(request, 'doctors/doctor_profile.html', {'form': form, 'doc':doctor})
+    return render(request, 'doctors/doctor_profile.html', {'form': form, 'doc': doctor})
+
 
 def registerDoctor(request):
     if request.method == 'POST':
@@ -139,6 +149,7 @@ def DoctorLogin(request):
 
 
 from django.db.models import Q
+
 
 def BrowseDoctors(request):
 
@@ -248,7 +259,7 @@ def PostList(request):
     context = {'posts': posts}
     return render(request, 'posts/post_list.html', context)
 
-
+@login_required(login_url='login')
 def MyPosts(request):
     doctor = Doctor.objects.get(user=request.user)
     posts = Post.objects.filter(author=doctor).order_by('-published_date')

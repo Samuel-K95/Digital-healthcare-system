@@ -5,7 +5,7 @@ from .models import Doctor, Post
 
 
 class CustomDoctorAdmin(admin.ModelAdmin):
-    list_display = ('user', 'first_name','last_name', 'verification_status','email' )
+    list_display = ('user', 'first_name','last_name', 'verification_status','email','rating', )
     list_display_links = ('user',)
     list_editable = ('verification_status',)
     list_filter = ('verification_status','email')
@@ -17,7 +17,7 @@ class CustomDoctorAdmin(admin.ModelAdmin):
             'fields': ('user','first_name','last_name', 'phone_number','email','specialization','city','years_of_experience','languages',),
         }),
         ('Verification Information', {
-            'fields':('national_id_or_passport_image','passport_or_id_number','date_of_birth','date_issued','expiry_date','verification_status', ),
+            'fields':('national_id_or_passport_image','passport_or_id_number','medical_licence','date_of_birth','date_issued','expiry_date','verification_status', ),
             'classes': ('wide',),
         }),
     )
