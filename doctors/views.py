@@ -25,11 +25,15 @@ from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 #Email verification and account activation
 
+#Doctor Rating
+from rating.models import Rating
 
 def DoctorDetail(request,pk):
     doctor = Doctor.objects.get(id=pk)
+    reviews = Rating.objects.filter(rated_doctor = doctor)
     context = {
-        'doctor' : doctor  
+        'doctor' : doctor,
+        'reviews': reviews,  
     }
     
     return render(request, 'doctors/doctor_detail.html', context)
@@ -119,8 +123,9 @@ def DoctorLogin(request):
     username = request.POST['username']
     password = request.POST['password1']
 
-    user = authenticate(username=username, password=password)
+    
 
+    user = authenticate(username=username, password=password)
     if user is not None:
       auth.login(request, user)
       return redirect('DoctorProfile')  

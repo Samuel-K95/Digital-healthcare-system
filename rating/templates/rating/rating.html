@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="bg-gray-200 font-[sans-serif] text-[#333]">
+  <div class="min-h-screen flex flex-col items-center justify-center py-6 px-4">
+    <div class="max-w-3xl w-full border py-8 px-6 rounded border-gray-300 bg-white">
+      <a href="javascript:void(0)"><img src="{% static 'images/logo.png' %}" alt="logo" class='w-40 mb-10' /></a>
+
+      <form method="post" class="space-y-4">
+        {% csrf_token %}
+        <div class="flex items-center">
+          <ion-icon name="star"></ion-icon>
+          <span class="ml-2">Rate</span>
+        </div>
+
+        {% for field in form %}
+        <div class="space-y-4">
+          <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700">{{ field.label }}</label>
+          <div class="w-full text-sm px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+            {{ field }}
+          </div>
+        </div>
+        {% endfor %}
+
+        <div class="flex items-center">
+          <button type="submit" class="btn bg-blue-500 text-white hover:bg-blue-700 px-4 py-2 rounded">Rate</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  </div>
+
+{% endblock %}
