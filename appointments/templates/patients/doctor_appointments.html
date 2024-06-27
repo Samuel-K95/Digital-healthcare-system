@@ -29,6 +29,9 @@
                 <a href="{% url 'schedule_appointment' apt.id %}">Messages</a>
               </button>
               <button class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700 transition duration-300 font-bold">
+                <a href="{% url 'rate_doctor' apt.doctor.id %}">Rate Doctor</a>
+              </button>
+              <button class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700 transition duration-300 font-bold">
                 <a href="{% url 'join_the_call' apt.id %}">Join The Call</a>
               </button>
 

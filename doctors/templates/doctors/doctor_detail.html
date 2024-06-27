@@ -23,8 +23,9 @@
           <h4 class="text-lg font-semibold mb-4">Reviews</h4>
           {% for r in reviews %}
           <div class="border border-gray-300 rounded-lg p-4 mb-4">
-            <h2 class="text-xl font-semibold">{{ r.score }}</h2>
+            <h2 class="text-xl font-semibold">{{ r.score }} &bigstar; </h2>
             <p class="text-gray-800">{{ r.review }}</p>
+            <h6 class="text-gray-400">Rated by {{r.rater_patient}}</h6>
            
           </div>
           {% endfor %}
