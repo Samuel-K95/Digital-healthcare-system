@@ -2,6 +2,9 @@ from django.db import models
 from django.contrib.auth.models import User
 from doctors.models import Doctor
 from patients.models import Patient
+import uuid
+from django.contrib.postgres.fields import ArrayField
+from django.db.models import JSONField
 
 class Appointment(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='patient_appointments')
@@ -20,6 +23,11 @@ class Appointment(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    # Advanced scheduling fields
+    recurrence_rule = models.TextField(null=True, blank=True)
+    recurrence_exceptions = JSONField(default=list, blank=True)
+    occurrence_id = models.UUIDField(null=True, blank=True)
 
     def __str__(self):
         return f"Appointment with {self.doctor.user.username} on {self.appointment_date}"
