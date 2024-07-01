@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import path
 from . import views
+from . import api
 
 urlpatterns = [
     path('schedule_appointment/<int:doctor_id>/', views.ScheduleAppointment, name='schedule_appointment'),
@@ -12,4 +13,7 @@ urlpatterns = [
     path('confirm_appointment/<int:appointment_id>/', views.ConfirmAppointment, name='confirm_appointment'),
     path('reschedule_appointment/<int:appointment_id>/', views.RescheduleAppointment, name='reschedule_appointment'),
     path('VideoCall/<int:appointment_id>/', views.StartVideoCall, name='start_video_call'),
+    # API endpoints for scheduling
+    path('api/doctors/<int:doctor_id>/availability/', api.available_slots, name='api_available_slots'),
+    path('api/appointments/', api.create_appointment, name='api_create_appointment'),
 ]
