@@ -8,6 +8,8 @@ import json
 from doctors.models import Doctor
 from patients.models import Patient
 from .services.scheduler import find_available_slots, book_slot_atomic
+from access.policy import can_create_appointment
+
 
 
 @require_GET
@@ -48,6 +50,11 @@ def create_appointment(request):
     patient = Patient.objects.filter(id=patient_id).first()
     if not patient:
         return JsonResponse({'error': 'patient not found'}, status=404)
+    # Enforce policy: require authenticated user to create appointments
+    if not request.user or not request.user.is_authenticated:
+        return JsonResponse({'error': 'authentication required'}, status=401)
+    if not can_create_appointment(request.user, doctor, patient):
+        return JsonResponse({'error': 'forbidden'}, status=403)
     slot_dt = parse_datetime(slot_start)
     if slot_dt is None:
         return JsonResponse({'error': 'invalid slot_start datetime'}, status=400)

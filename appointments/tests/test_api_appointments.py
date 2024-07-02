@@ -25,7 +25,8 @@ class ApiAppointmentsTests(TestCase):
         slots = data['slots']
         self.assertTrue(len(slots) >= 1)
 
-        # book first slot
+        # book first slot (login as patient to satisfy policy)
+        self.client.login(username='patapi', password='pass')
         slot = slots[0]['start']
         resp2 = self.client.post('/appointments/api/appointments/', data=json.dumps({'doctor_id': self.doctor.id, 'patient_id': self.patient.id, 'slot_start': slot, 'duration': 30}), content_type='application/json')
         self.assertIn(resp2.status_code, (200,201))
