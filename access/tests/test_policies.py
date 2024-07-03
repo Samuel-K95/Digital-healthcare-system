@@ -11,7 +11,7 @@ class PolicyTests(TestCase):
     def setUp(self):
         self.user_doc = User.objects.create_user(username='docpol', password='pass')
         self.user_pat = User.objects.create_user(username='patpol', password='pass')
-        self.doctor = Doctor.objects.create(user=self.user_doc)
+        self.doctor, _ = Doctor.objects.get_or_create(user=self.user_doc)
         self.patient = Patient.objects.create(user=self.user_pat, fname='P', lname='Q', email='p@q.com')
 
     def test_role_resolution(self):
