@@ -1,13 +1,22 @@
 import os
 import json
 from dotenv import load_dotenv
-import google.generativeai as genai
+try:
+    import google.generativeai as genai
+    _HAS_GENAI = True
+except Exception:
+    genai = None
+    _HAS_GENAI = False
 
 
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
+if GOOGLE_API_KEY:
+    GOOGLE_API_KEY = GOOGLE_API_KEY.strip()
 
-GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY").strip()
-
-genai.configure(api_key=GOOGLE_API_KEY)
+if _HAS_GENAI and GOOGLE_API_KEY:
+    genai.configure(api_key=GOOGLE_API_KEY)
+else:
+    _HAS_GENAI = False
 
 
 prompt = """
