@@ -12,5 +12,9 @@ urlpatterns = [
     path('Patients/', include('patients.urls')),
     path('Doctors/', include('doctors.urls')),
     path('Appointments/', include('appointments.urls')),
+    # lowercase aliases for external integrations and tests
+    path('patients/', include('patients.urls')),
+    path('doctors/', include('doctors.urls')),
+    path('appointments/', include('appointments.urls')),
     path('Rating/', include('rating.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
