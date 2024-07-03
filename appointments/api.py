@@ -19,6 +19,9 @@ def available_slots(request, doctor_id):
     duration = int(request.GET.get('duration', '30'))
     if not start or not end:
         return JsonResponse({'error': 'start and end query params required'}, status=400)
+    # URL encoding may convert '+' in ISO offsets to spaces; normalize back
+    start = start.replace(' ', '+')
+    end = end.replace(' ', '+')
     start_dt = parse_datetime(start)
     end_dt = parse_datetime(end)
     if start_dt is None or end_dt is None:
@@ -55,7 +58,7 @@ def create_appointment(request):
         return JsonResponse({'error': 'authentication required'}, status=401)
     if not can_create_appointment(request.user, doctor, patient):
         return JsonResponse({'error': 'forbidden'}, status=403)
-    slot_dt = parse_datetime(slot_start)
+    slot_dt = parse_datetime(slot_start.replace(' ', '+'))
     if slot_dt is None:
         return JsonResponse({'error': 'invalid slot_start datetime'}, status=400)
     try:
