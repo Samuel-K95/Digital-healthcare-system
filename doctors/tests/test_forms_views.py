@@ -39,7 +39,10 @@ class DoctorFormAndViewTests(TestCase):
         self.assertIn('Expiry date cannot be in the past.', str(form.errors))
 
     def test_doctor_detail_view(self):
-        Rating.objects.create(rated_doctor=self.doctor, score=4)
+        from patients.models import Patient
+        userp = User.objects.create_user(username='p_rater', password='pass')
+        patient = Patient.objects.create(user=userp, fname='R', lname='P', email='r@p.com')
+        Rating.objects.create(rated_doctor=self.doctor, rater_patient=patient, score=4)
         resp = self.client.get(f'/doctors/DoctorDetail/{self.doctor.id}')
         self.assertEqual(resp.status_code, 200)
 
