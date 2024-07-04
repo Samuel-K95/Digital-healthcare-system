@@ -12,6 +12,8 @@ class DoctorFormAndViewTests(TestCase):
         self.client = Client()
         self.user = User.objects.create_user(username='dvuser', password='pass', email='dv@example.com')
         self.doctor = Doctor.objects.create(user=self.user, first_name='A', last_name='B', verification_status='approved')
+        from django.core.files.base import ContentFile
+        self.doctor.photo.save('p.jpg', ContentFile(b'p'), save=True)
 
     def test_clean_date_of_birth_future(self):
         future = date.today() + timedelta(days=10)
