@@ -23,18 +23,18 @@ class RatingViewTests(TestCase):
 
     def test_rate_doctor_get_renders(self):
         self.client.login(username='rpat', password='pass')
-        resp = self.client.get(f'/rating/rate_doctor/{self.doctor.id}/')
+        resp = self.client.get(f'/Rating/rate_doctor/{self.doctor.id}/')
         self.assertEqual(resp.status_code, 200)
 
     def test_rate_doctor_post_without_appointment_redirects(self):
         self.client.login(username='rpat', password='pass')
-        resp = self.client.post(f'/rating/rate_doctor/{self.doctor.id}/', data={'score': 5, 'review': 'Good'})
+        resp = self.client.post(f'/Rating/rate_doctor/{self.doctor.id}/', data={'score': 5, 'review': 'Good'})
         self.assertEqual(resp.status_code, 302)
 
     def test_rate_doctor_post_with_appointment_creates_rating(self):
         # create an appointment linking patient and doctor
         Appointment.objects.create(doctor=self.doctor, patient=self.patient, appointment_date=timezone.now())
         self.client.login(username='rpat', password='pass')
-        resp = self.client.post(f'/rating/rate_doctor/{self.doctor.id}/', data={'score': 5, 'review': 'Great'})
+        resp = self.client.post(f'/Rating/rate_doctor/{self.doctor.id}/', data={'score': 5, 'review': 'Great'})
         self.assertEqual(resp.status_code, 302)
         self.assertTrue(Rating.objects.filter(rated_doctor=self.doctor, rater_patient=self.patient).exists())
