@@ -16,6 +16,9 @@ class HomeViewTests(TestCase):
     def test_home_with_posts(self):
         user = User.objects.create_user(username='postuser', password='pass')
         doc = Doctor.objects.create(user=user)
+        # attach a small dummy photo so template can access photo.url
+        from django.core.files.base import ContentFile
+        doc.photo.save('p.jpg', ContentFile(b'p'), save=True)
         Post.objects.create(author=doc, title='T', description='D', content='C', published_date=timezone.now())
         resp = self.client.get('/')
         self.assertEqual(resp.status_code, 200)
