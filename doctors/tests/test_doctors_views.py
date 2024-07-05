@@ -11,6 +11,10 @@ class DoctorsViewsBasicTests(TestCase):
         u2 = User.objects.create_user(username='doc2', password='pass')
         self.doc1 = Doctor.objects.create(user=u1, first_name='Alice', last_name='One', verification_status='approved', city='X')
         self.doc2 = Doctor.objects.create(user=u2, first_name='Bob', last_name='Two', verification_status='approved', city='Y')
+        # ensure photo fields have a file to avoid template .url errors
+        from django.core.files.base import ContentFile
+        self.doc1.photo.save('p1.jpg', ContentFile(b''), save=True)
+        self.doc2.photo.save('p2.jpg', ContentFile(b''), save=True)
 
         # create posts
         Post.objects.create(author=self.doc1, title='T1', description='D', content='C')
