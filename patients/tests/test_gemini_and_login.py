@@ -9,8 +9,9 @@ class GeminiAndLoginTests(TestCase):
         self.user = User.objects.create_user(username='guser', password='pass')
 
     def test_gemini_chat_branches(self):
-        # empty messages -> gemini_new_request
+        # ensure chat has at least one message so view takes gemini_request path
         chat = gemini.Chat()
+        chat.messages = [{'role':'user','parts':['hi']}]
         self.client.session['chat'] = chat.serialize()
         self.client.session.save()
         resp = self.client.post('/patients/GeminiChat/', {'question': 'hello'})
