@@ -42,7 +42,8 @@ class BrowseVideoLikeTests(TestCase):
         from patients.models import Patient
         pu = User.objects.create_user(username='pfor', password='pass')
         pat = Patient.objects.create(user=pu, fname='Fp', lname='Lp', email='p@p.com')
-        appt = __import__('appointments.models', fromlist=['Appointment']).models.Appointment.objects.create(patient=pat, doctor=self.doc1, appointment_date='2030-01-01')
+        from appointments.models import Appointment
+        appt = Appointment.objects.create(patient=pat, doctor=self.doc1, appointment_date='2030-01-01')
         # as doctor
         self.client.login(username='d1', password='pass')
         resp = self.client.get(f'/appointments/VideoCall/{appt.id}/')
