@@ -9,8 +9,8 @@ class BrowseVideoLikeTests(TestCase):
         self.client = Client()
         u1 = User.objects.create_user(username='d1', password='pass')
         u2 = User.objects.create_user(username='d2', password='pass')
-        self.doc1 = Doctor.objects.create(user=u1, first_name='Alice', last_name='A', verification_status='approved', city='C1', years_of_experience='1-3', languages='Eng', doctor_type='GP', rating=4.5)
-        self.doc2 = Doctor.objects.create(user=u2, first_name='Bob', last_name='B', verification_status='approved', city='C2', years_of_experience='3-5', languages='Spa', doctor_type='Spec', rating=3.0)
+        self.doc1 = Doctor.objects.create(user=u1, first_name='Alice', last_name='A', verification_status='approved', city='C1', years_of_experience='1-3', languages='Eng', rating=4.5)
+        self.doc2 = Doctor.objects.create(user=u2, first_name='Bob', last_name='B', verification_status='approved', city='C2', years_of_experience='3-5', languages='Spa', rating=3.0)
         from django.core.files.base import ContentFile
         self.doc1.photo.save('d1.jpg', ContentFile(b''), save=True)
         self.doc2.photo.save('d2.jpg', ContentFile(b''), save=True)
@@ -38,11 +38,16 @@ class BrowseVideoLikeTests(TestCase):
         self.assertIn(resp2.status_code, (200,302))
 
     def test_start_video_call_branches(self):
+        # create a patient and appointment
+        from patients.models import Patient
+        pu = User.objects.create_user(username='pfor', password='pass')
+        pat = Patient.objects.create(user=pu, fname='Fp', lname='Lp', email='p@p.com')
+        appt = __import__('appointments.models', fromlist=['Appointment']).models.Appointment.objects.create(patient=pat, doctor=self.doc1, appointment_date='2030-01-01')
         # as doctor
         self.client.login(username='d1', password='pass')
-        resp = self.client.get(f'/appointments/VideoCall/1/')
+        resp = self.client.get(f'/appointments/VideoCall/{appt.id}/')
         self.assertIn(resp.status_code, (200,302))
         # as anonymous treated as patient branch
         self.client.logout()
-        resp2 = self.client.get(f'/appointments/VideoCall/1/')
+        resp2 = self.client.get(f'/appointments/VideoCall/{appt.id}/')
         self.assertIn(resp2.status_code, (200,302))
