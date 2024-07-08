@@ -5,6 +5,10 @@ omit =
     */tests/*
     */__init__.py
     manage.py
+    */wsgi.py
+    */asgi.py
+    */tests.py
+    adminpanel/views.py
 
 [report]
 exclude_lines =
