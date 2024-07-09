@@ -40,3 +40,15 @@ class DecoratorsTests(TestCase):
         req = DummyReq(User())
         resp = view(req)
         self.assertEqual(resp.status_code, 403)
+
+    def test_require_policy_allows(self):
+        def check(request, *a, **k):
+            return True
+
+        @require_policy(check)
+        def view(request):
+            return 'ok'
+
+        u = User.objects.create_user(username='allowed', password='pass')
+        req = DummyReq(u)
+        self.assertEqual(view(req), 'ok')
