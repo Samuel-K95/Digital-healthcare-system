@@ -38,3 +38,21 @@ class RatingViewTests(TestCase):
         resp = self.client.post(f'/Rating/rate_doctor/{self.doctor.id}/', data={'score': 5, 'review': 'Great'})
         self.assertEqual(resp.status_code, 302)
         self.assertTrue(Rating.objects.filter(rated_doctor=self.doctor, rater_patient=self.patient).exists())
+
+    def test_rate_doctor_update_existing_rating(self):
+        Appointment.objects.create(doctor=self.doctor, patient=self.patient, appointment_date=timezone.now())
+        Rating.objects.create(rated_doctor=self.doctor, rater_patient=self.patient, score=3, review='ok')
+        self.doctor.rating = 3
+        self.doctor.rating_counter = 1
+        self.doctor.save()
+        self.client.login(username='rpat', password='pass')
+        resp = self.client.post(f'/Rating/rate_doctor/{self.doctor.id}/', data={'score': 5, 'review': 'Updated'})
+        self.assertEqual(resp.status_code, 302)
+        self.assertEqual(Rating.objects.get(rated_doctor=self.doctor, rater_patient=self.patient).score, 5)
+
+    def test_rate_doctor_get_with_existing_rating(self):
+        Appointment.objects.create(doctor=self.doctor, patient=self.patient, appointment_date=timezone.now())
+        Rating.objects.create(rated_doctor=self.doctor, rater_patient=self.patient, score=4, review='Fine')
+        self.client.login(username='rpat', password='pass')
+        resp = self.client.get(f'/Rating/rate_doctor/{self.doctor.id}/')
+        self.assertEqual(resp.status_code, 200)
